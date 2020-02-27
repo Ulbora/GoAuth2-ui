@@ -8,7 +8,7 @@ import (
 /*
  Copyright (C) 2019 Ulbora Labs LLC. (www.ulboralabs.com)
  All rights reserved.
- 
+
  Copyright (C) 2019 Ken Williamson
  All rights reserved.
 

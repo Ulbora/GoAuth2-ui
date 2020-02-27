@@ -1,6 +1,6 @@
-packager main
+package main
 
 //GO111MODULE=on go mod init github.com/Ulbora/GoAuth2-ui
-func main(){
-	
+func main() {
+
 }
