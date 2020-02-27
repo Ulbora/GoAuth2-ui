@@ -60,7 +60,8 @@ func TestClientService_AddClient(t *testing.T) {
 	cc.Enabled = true
 	cc.Name = "A Big Company"
 	cc.RedirectURIs = uris
-	res := c.AddClient(&cc)
+	s := c.GetNew()
+	res := s.AddClient(&cc)
 	fmt.Println("res in add: ", res)
 
 	CID = res.ClientID
@@ -87,7 +88,8 @@ func TestClientService_UpdateClient(t *testing.T) {
 	cc.Name = "A Really Big Company"
 	cc.WebSite = "http://www.ulbora.com"
 	cc.ClientID = CID
-	res := c.UpdateClient(&cc)
+	s := c.GetNew()
+	res := s.UpdateClient(&cc)
 	fmt.Print("res: ")
 	fmt.Println(res)
 	if res.Success != true {
@@ -109,7 +111,8 @@ func TestClientService_GetClient(t *testing.T) {
 	c.Token = tempToken
 	fmt.Print("CID: ")
 	fmt.Println(CID)
-	res := c.GetClient(strconv.FormatInt(CID, 10))
+	s := c.GetNew()
+	res := s.GetClient(strconv.FormatInt(CID, 10))
 	fmt.Print("res mocked: ")
 	fmt.Println(res)
 	if res.Enabled != true {
@@ -131,7 +134,8 @@ func TestClientService_SearchClient(t *testing.T) {
 	c.Token = tempToken
 	var cc Client
 	cc.Name = "Big"
-	res := c.SearchClient(&cc)
+	s := c.GetNew()
+	res := s.SearchClient(&cc)
 	fmt.Print("searched res: ")
 	fmt.Println(res)
 	fmt.Println("res len: ", len(*res))
@@ -152,7 +156,8 @@ func TestClientService_GetClientList(t *testing.T) {
 	c.ClientID = "10"
 	c.Host = "http://localhost:3000"
 	c.Token = tempToken
-	res := c.GetClientList()
+	s := c.GetNew()
+	res := s.GetClientList()
 	fmt.Print("res list: ")
 	fmt.Println(res)
 	fmt.Print("len: ")
@@ -174,7 +179,8 @@ func TestClientService_DeleteClient(t *testing.T) {
 	c.ClientID = "10"
 	c.Host = "http://localhost:3000"
 	c.Token = tempToken
-	res := c.DeleteClient(strconv.FormatInt(CID, 10))
+	s := c.GetNew()
+	res := s.DeleteClient(strconv.FormatInt(CID, 10))
 	fmt.Print("res deleted: ")
 	fmt.Println(res)
 	if res.Success != true {
