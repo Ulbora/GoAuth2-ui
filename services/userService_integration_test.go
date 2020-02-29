@@ -5,7 +5,6 @@ package services
 
 import (
 	"fmt"
-	"strconv"
 	"testing"
 
 	px "github.com/Ulbora/GoProxy"
@@ -32,11 +31,11 @@ import (
 
 */
 
-var CID7i int64
-var rID2i int64
-var uID2i int64
+var UIDi = "bob123456789"
+var CLIDi = "555589999999922222"
+var CLIDINTi int64 = 555589999999922222
 
-func TestRoleURIServicei_AddClient(t *testing.T) {
+func TestUserServicei_AddUser(t *testing.T) {
 	var c Oauth2Service
 	var l lg.Logger
 	c.Log = &l
@@ -44,96 +43,27 @@ func TestRoleURIServicei_AddClient(t *testing.T) {
 	c.Proxy = p.GetNewProxy()
 	fmt.Println("c.Proxy in test: ", c.Proxy)
 	c.ClientID = "10"
-	c.Host = "http://localhost:3000"
+	c.Host = "http://localhost:3001"
 	c.Token = tempToken
-	var uri RedirectURI
-	uri.URI = "http://googole.com"
-	var uris []RedirectURI
-	uris = append(uris, uri)
-	var cc Client
-	cc.Email = "ken@ken.com"
-	cc.Enabled = true
-	cc.Name = "A Big Company"
-	cc.RedirectURIs = uris
-	res := c.AddClient(&cc)
-	fmt.Print("add client res: ")
-	fmt.Println(res)
-	CID7i = res.ClientID
-	if res.Success != true {
-		t.Fail()
-	}
-}
-
-func TestRoleURIServicei_AddAllowedURI(t *testing.T) {
-	var c Oauth2Service
-	var l lg.Logger
-	c.Log = &l
-	var p px.GoProxy
-	c.Proxy = p.GetNewProxy()
-	fmt.Println("c.Proxy in test: ", c.Proxy)
-	c.ClientID = "10"
-	c.Host = "http://localhost:3000"
-	c.Token = tempToken
-	var uri AllowedURI
-	uri.URI = "/rs/mail/send"
-	uri.ClientID = CID7i
-	res := c.AddAllowedURI(&uri)
-
-	fmt.Print("add uri res: ")
-	fmt.Println(res)
-	uID2i = res.ID
-	if res.Success != true {
-		t.Fail()
-	}
-}
-
-func TestRoleURIServicei_AddClientRole(t *testing.T) {
-	var c Oauth2Service
-	var l lg.Logger
-	c.Log = &l
-	var p px.GoProxy
-	c.Proxy = p.GetNewProxy()
-	fmt.Println("c.Proxy in test: ", c.Proxy)
-	c.ClientID = "10"
-	c.Host = "http://localhost:3000"
-	c.Token = tempToken
-	var cr ClientRole
-	cr.Role = "user"
-	cr.ClientID = CID7i
-	res := c.AddClientRole(&cr)
-
-	fmt.Print("add client role res: ")
-	fmt.Println(res)
-	rID2i = res.ID
-	if res.Success != true {
-		t.Fail()
-	}
-}
-
-func TestRoleURIServicei_AddRoleURI(t *testing.T) {
-	var c Oauth2Service
-	var l lg.Logger
-	c.Log = &l
-	var p px.GoProxy
-	c.Proxy = p.GetNewProxy()
-	fmt.Println("c.Proxy in test: ", c.Proxy)
-	c.ClientID = "10"
-	c.Host = "http://localhost:3000"
-	c.Token = tempToken
-	var ru RoleURI
-	ru.ClientAllowedURIID = uID2i
-	ru.ClientRoleID = rID2i
+	var user User
+	user.ClientID = CLIDINTi
+	user.EmailAddress = "bob@bob.com"
+	user.Enabled = true
+	user.FirstName = "bob"
+	user.LastName = "bob"
+	user.Password = "bob"
+	user.RoleID = 1
+	user.Username = UIDi
 	cc := c.GetNew()
-	res := cc.AddRoleURI(&ru)
-
-	fmt.Print("add roleUri res: ")
+	res := cc.AddUser(&user)
+	fmt.Print("res: ")
 	fmt.Println(res)
 	if res.Success != true {
 		t.Fail()
 	}
 }
 
-func TestRoleURIServicei_GetRoleURIList(t *testing.T) {
+func TestUserServicei_UpdateUserPassword(t *testing.T) {
 	var c Oauth2Service
 	var l lg.Logger
 	c.Log = &l
@@ -141,19 +71,22 @@ func TestRoleURIServicei_GetRoleURIList(t *testing.T) {
 	c.Proxy = p.GetNewProxy()
 	fmt.Println("c.Proxy in test: ", c.Proxy)
 	c.ClientID = "10"
-	c.Host = "http://localhost:3000"
+	c.Host = "http://localhost:3001"
 	c.Token = tempToken
-	res := c.GetRoleURIList(strconv.FormatInt(rID2i, 10))
-	fmt.Print("roleuri res list: ")
+	var user UserPW
+	user.Username = UIDi
+	user.ClientID = CLIDINTi
+	user.Password = "bobbby"
+
+	res := c.UpdateUser(&user)
+	fmt.Print("res: ")
 	fmt.Println(res)
-	fmt.Print("len: ")
-	fmt.Println(len(*res))
-	if res == nil || len(*res) != 1 {
+	if res.Success != true {
 		t.Fail()
 	}
 }
 
-func TestRoleURIServicei_DeleteRoleURI(t *testing.T) {
+func TestUserServicei_UpdateUserDisable(t *testing.T) {
 	var c Oauth2Service
 	var l lg.Logger
 	c.Log = &l
@@ -161,20 +94,22 @@ func TestRoleURIServicei_DeleteRoleURI(t *testing.T) {
 	c.Proxy = p.GetNewProxy()
 	fmt.Println("c.Proxy in test: ", c.Proxy)
 	c.ClientID = "10"
-	c.Host = "http://localhost:3000"
+	c.Host = "http://localhost:3001"
 	c.Token = tempToken
-	var ru RoleURI
-	ru.ClientAllowedURIID = uID2i
-	ru.ClientRoleID = rID2i
-	res := c.DeleteRoleURI(&ru)
-	fmt.Print("res deleted roleuri: ")
+	var user UserDis
+	user.Username = UIDi
+	user.ClientID = CLIDINTi
+	user.Enabled = false
+
+	res := c.UpdateUser(&user)
+	fmt.Print("res: ")
 	fmt.Println(res)
 	if res.Success != true {
 		t.Fail()
 	}
 }
 
-func TestRoleURIServicei_DeleteAllowedURI(t *testing.T) {
+func TestUserServicei_UpdateUserInfo(t *testing.T) {
 	var c Oauth2Service
 	var l lg.Logger
 	c.Log = &l
@@ -182,17 +117,25 @@ func TestRoleURIServicei_DeleteAllowedURI(t *testing.T) {
 	c.Proxy = p.GetNewProxy()
 	fmt.Println("c.Proxy in test: ", c.Proxy)
 	c.ClientID = "10"
-	c.Host = "http://localhost:3000"
+	c.Host = "http://localhost:3001"
 	c.Token = tempToken
-	res := c.DeleteAllowedURI(strconv.FormatInt(uID2i, 10))
-	fmt.Print("res deleted uri: ")
+	var user UserInfo
+	user.Username = UIDi
+	user.ClientID = CLIDINTi
+	user.EmailAddress = "bobbby@bob.com"
+	user.FirstName = "bobby"
+	user.RoleID = 1
+	user.LastName = "williams"
+
+	res := c.UpdateUser(&user)
+	fmt.Print("res: ")
 	fmt.Println(res)
 	if res.Success != true {
 		t.Fail()
 	}
 }
 
-func TestRoleURIServicei_DeleteClientRole(t *testing.T) {
+func TestUserServicei_UpdateUserDisable2(t *testing.T) {
 	var c Oauth2Service
 	var l lg.Logger
 	c.Log = &l
@@ -200,17 +143,22 @@ func TestRoleURIServicei_DeleteClientRole(t *testing.T) {
 	c.Proxy = p.GetNewProxy()
 	fmt.Println("c.Proxy in test: ", c.Proxy)
 	c.ClientID = "10"
-	c.Host = "http://localhost:3000"
+	c.Host = "http://localhost:3001"
 	c.Token = tempToken
-	res := c.DeleteClientRole(strconv.FormatInt(rID2i, 10))
-	fmt.Print("res deleted client role: ")
+	var user UserDis
+	user.Username = UIDi
+	user.ClientID = CLIDINTi
+	user.Enabled = true
+
+	res := c.UpdateUser(&user)
+	fmt.Print("res: ")
 	fmt.Println(res)
 	if res.Success != true {
 		t.Fail()
 	}
 }
 
-func TestRoleURIServicei_DeleteClient(t *testing.T) {
+func TestUserServicei_GetUser(t *testing.T) {
 	var c Oauth2Service
 	var l lg.Logger
 	c.Log = &l
@@ -218,12 +166,119 @@ func TestRoleURIServicei_DeleteClient(t *testing.T) {
 	c.Proxy = p.GetNewProxy()
 	fmt.Println("c.Proxy in test: ", c.Proxy)
 	c.ClientID = "10"
-	c.Host = "http://localhost:3000"
+	c.Host = "http://localhost:3001"
 	c.Token = tempToken
-	res := c.DeleteClient(strconv.FormatInt(CID7i, 10))
-	fmt.Print("res deleted client: ")
+
+	res := c.GetUser(UIDi, CLIDi)
+	fmt.Print("res: ")
+	fmt.Println(res)
+	if res.Username != UIDi || res.Enabled == false {
+		t.Fail()
+	}
+}
+
+func TestUserServicei_GetUserList(t *testing.T) {
+	var c Oauth2Service
+	var l lg.Logger
+	c.Log = &l
+	var p px.GoProxy
+	c.Proxy = p.GetNewProxy()
+	fmt.Println("c.Proxy in test: ", c.Proxy)
+	c.ClientID = "10"
+	c.Host = "http://localhost:3001"
+	c.Token = tempToken
+
+	res := c.GetUserList()
+	fmt.Print("res: ")
+	fmt.Println(res)
+	if len(*res) == 0 {
+		t.Fail()
+	}
+}
+
+func TestUserServicei_SearchUserList(t *testing.T) {
+	var c Oauth2Service
+	var l lg.Logger
+	c.Log = &l
+	var p px.GoProxy
+	c.Proxy = p.GetNewProxy()
+	fmt.Println("c.Proxy in test: ", c.Proxy)
+	c.ClientID = "10"
+	c.Host = "http://localhost:3001"
+	c.Token = tempToken
+
+	res := c.SearchUserList(CLIDi)
+	fmt.Print("res: ")
+	fmt.Println(res)
+	if len(*res) == 0 {
+		t.Fail()
+	}
+}
+
+func TestUserServicei_DeleteUser(t *testing.T) {
+	var c Oauth2Service
+	var l lg.Logger
+	c.Log = &l
+	var p px.GoProxy
+	c.Proxy = p.GetNewProxy()
+	fmt.Println("c.Proxy in test: ", c.Proxy)
+	c.ClientID = "10"
+	c.Host = "http://localhost:3001"
+	c.Token = tempToken
+
+	res := c.DeleteUser(UIDi, CLIDi)
+	fmt.Print("res: ")
 	fmt.Println(res)
 	if res.Success != true {
+		t.Fail()
+	}
+}
+
+func TestUserServicei_GetRoleList(t *testing.T) {
+	var c Oauth2Service
+	var l lg.Logger
+	c.Log = &l
+	var p px.GoProxy
+	c.Proxy = p.GetNewProxy()
+	fmt.Println("c.Proxy in test: ", c.Proxy)
+	c.ClientID = "10"
+	c.Host = "http://localhost:3001"
+	c.Token = tempToken
+
+	res := c.GetRoleList()
+	fmt.Print("role res: ")
+	fmt.Println(res)
+	if len(*res) == 0 {
+		t.Fail()
+	}
+}
+
+func TestUserServicei_GetUserType(t *testing.T) {
+	var u UserPW
+
+	res := u.GetType()
+	fmt.Println("role res: ", res)
+	if res != "PW" {
+		t.Fail()
+	}
+}
+
+func TestUserServicei_GetUserDescType(t *testing.T) {
+	var u UserDis
+
+	res := u.GetType()
+	fmt.Println("role res: ", res)
+	if res != "DIS" {
+		t.Fail()
+	}
+}
+
+func TestUserServicei_GetUserInfoType(t *testing.T) {
+	var u UserInfo
+
+	res := u.GetType()
+	fmt.Println("role res: ", res)
+	if res != "INFO" {
 		t.Fail()
 	}
 }

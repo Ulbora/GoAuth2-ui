@@ -2,7 +2,10 @@
 package services
 
 import (
+	"bytes"
 	"fmt"
+	"io/ioutil"
+	"net/http"
 	"strconv"
 	"testing"
 
@@ -37,7 +40,12 @@ func TestGrantTypeService_AddClient(t *testing.T) {
 	var c Oauth2Service
 	var l lg.Logger
 	c.Log = &l
-	var p px.GoProxy
+	var p px.MockGoProxy
+	p.MockDoSuccess1 = true
+	var ress http.Response
+	ress.Body = ioutil.NopCloser(bytes.NewBufferString(`{"success":true, "id": 2}`))
+	p.MockResp = &ress
+	p.MockRespCode = 200
 	c.Proxy = p.GetNewProxy()
 	fmt.Println("c.Proxy in test: ", c.Proxy)
 	c.ClientID = "10"
@@ -65,7 +73,12 @@ func TestGrantTypeService_AddGrantType(t *testing.T) {
 	var c Oauth2Service
 	var l lg.Logger
 	c.Log = &l
-	var p px.GoProxy
+	var p px.MockGoProxy
+	p.MockDoSuccess1 = true
+	var ress http.Response
+	ress.Body = ioutil.NopCloser(bytes.NewBufferString(`{"success":true, "id": 2}`))
+	p.MockResp = &ress
+	p.MockRespCode = 200
 	c.Proxy = p.GetNewProxy()
 	fmt.Println("c.Proxy in test: ", c.Proxy)
 	c.ClientID = "10"
@@ -89,7 +102,12 @@ func TestGrantTypeService_GetGrantTypeList(t *testing.T) {
 	var c Oauth2Service
 	var l lg.Logger
 	c.Log = &l
-	var p px.GoProxy
+	var p px.MockGoProxy
+	p.MockDoSuccess1 = true
+	var ress http.Response
+	ress.Body = ioutil.NopCloser(bytes.NewBufferString(`[{"id":5, "grantType": "code"}]`))
+	p.MockResp = &ress
+	p.MockRespCode = 200
 	c.Proxy = p.GetNewProxy()
 	fmt.Println("c.Proxy in test: ", c.Proxy)
 	c.ClientID = "10"
@@ -110,7 +128,12 @@ func TestGrantTypeService_DeleteGrantType(t *testing.T) {
 	var c Oauth2Service
 	var l lg.Logger
 	c.Log = &l
-	var p px.GoProxy
+	var p px.MockGoProxy
+	p.MockDoSuccess1 = true
+	var ress http.Response
+	ress.Body = ioutil.NopCloser(bytes.NewBufferString(`{"success":true, "id": 2}`))
+	p.MockResp = &ress
+	p.MockRespCode = 200
 	c.Proxy = p.GetNewProxy()
 	fmt.Println("c.Proxy in test: ", c.Proxy)
 	c.ClientID = "10"
@@ -128,7 +151,12 @@ func TestGrantTypeService_DeleteClient(t *testing.T) {
 	var c Oauth2Service
 	var l lg.Logger
 	c.Log = &l
-	var p px.GoProxy
+	var p px.MockGoProxy
+	p.MockDoSuccess1 = true
+	var ress http.Response
+	ress.Body = ioutil.NopCloser(bytes.NewBufferString(`{"success":true, "id": 2}`))
+	p.MockResp = &ress
+	p.MockRespCode = 200
 	c.Proxy = p.GetNewProxy()
 	fmt.Println("c.Proxy in test: ", c.Proxy)
 	c.ClientID = "10"

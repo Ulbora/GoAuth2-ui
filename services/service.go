@@ -56,14 +56,13 @@ type Service interface {
 	GetRoleURIList(uID string) *[]RoleURI
 	DeleteRoleURI(ru *RoleURI) *RoleURIResponse
 
-	// AddUser(user *User) *UserResponse
-	// UpdateUser(user UpdateUser) *UserResponse
-	// GetUser(username string, clientID string) *User
-	// GetUserList() *[]User
-	// SearchUserList(clientID string) *[]User
-	// DeleteUser(username string, clientID string) *UserResponse
-	// GetRoleList() *[]Role
-
+	AddUser(user *User) *UserResponse
+	UpdateUser(user UpdateUser) *UserResponse
+	GetUser(username string, clientID string) *User
+	GetUserList() *[]User
+	SearchUserList(clientID string) *[]User
+	DeleteUser(username string, clientID string) *UserResponse
+	GetRoleList() *[]Role
 }
 
 //Oauth2Service Oauth2Service
