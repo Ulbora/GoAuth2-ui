@@ -1,42 +1,46 @@
-/*
- Copyright (C) 2017 Ulbora Labs LLC. (www.ulboralabs.com)
- All rights reserved.
-
- Copyright (C) 2017 Ken Williamson
- All rights reserved.
-
- Certain inventions and disclosures in this file may be claimed within
- patents owned or patent applications filed by Ulbora Labs LLC., or third
- parties.
-
- This program is free software: you can redistribute it and/or modify
- it under the terms of the GNU Affero General Public License as published
- by the Free Software Foundation, either version 3 of the License, or
- (at your option) any later version.
-
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU Affero General Public License for more details.
-
- You should have received a copy of the GNU Affero General Public License
- along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
-
+//Package services ...
 package services
 
 import (
 	"fmt"
 	"strconv"
 	"testing"
+
+	px "github.com/Ulbora/GoProxy"
+	lg "github.com/Ulbora/Level_Logger"
 )
+
+/*
+ Copyright (C) 2019 Ulbora Labs LLC. (www.ulboralabs.com)
+ All rights reserved.
+
+ Copyright (C) 2019 Ken Williamson
+ All rights reserved.
+
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+*/
 
 var CID3 int64
 var gtID int64
 
 func TestGrantTypeService_AddClient(t *testing.T) {
 	var c Oauth2Service
-	c.ClientID = "403"
+	var l lg.Logger
+	c.Log = &l
+	var p px.GoProxy
+	c.Proxy = p.GetNewProxy()
+	fmt.Println("c.Proxy in test: ", c.Proxy)
+	c.ClientID = "10"
 	c.Host = "http://localhost:3000"
 	c.Token = tempToken
 	var uri RedirectURI
@@ -58,14 +62,20 @@ func TestGrantTypeService_AddClient(t *testing.T) {
 }
 
 func TestGrantTypeService_AddGrantType(t *testing.T) {
-	var c GrantTypeService
-	c.ClientID = "403"
+	var c Oauth2Service
+	var l lg.Logger
+	c.Log = &l
+	var p px.GoProxy
+	c.Proxy = p.GetNewProxy()
+	fmt.Println("c.Proxy in test: ", c.Proxy)
+	c.ClientID = "10"
 	c.Host = "http://localhost:3000"
 	c.Token = tempToken
 	var gt GrantType
 	gt.GrantType = "code"
 	gt.ClientID = CID3
-	res := c.AddGrantType(&gt)
+	cc := c.GetNew()
+	res := cc.AddGrantType(&gt)
 
 	fmt.Print("add grant type res: ")
 	fmt.Println(res)
@@ -76,8 +86,13 @@ func TestGrantTypeService_AddGrantType(t *testing.T) {
 }
 
 func TestGrantTypeService_GetGrantTypeList(t *testing.T) {
-	var c GrantTypeService
-	c.ClientID = "403"
+	var c Oauth2Service
+	var l lg.Logger
+	c.Log = &l
+	var p px.GoProxy
+	c.Proxy = p.GetNewProxy()
+	fmt.Println("c.Proxy in test: ", c.Proxy)
+	c.ClientID = "10"
 	c.Host = "http://localhost:3000"
 	c.Token = tempToken
 	res := c.GetGrantTypeList(strconv.FormatInt(CID3, 10))
@@ -92,8 +107,13 @@ func TestGrantTypeService_GetGrantTypeList(t *testing.T) {
 }
 
 func TestGrantTypeService_DeleteGrantType(t *testing.T) {
-	var c GrantTypeService
-	c.ClientID = "403"
+	var c Oauth2Service
+	var l lg.Logger
+	c.Log = &l
+	var p px.GoProxy
+	c.Proxy = p.GetNewProxy()
+	fmt.Println("c.Proxy in test: ", c.Proxy)
+	c.ClientID = "10"
 	c.Host = "http://localhost:3000"
 	c.Token = tempToken
 	res := c.DeleteGrantType(strconv.FormatInt(gtID, 10))
@@ -106,7 +126,12 @@ func TestGrantTypeService_DeleteGrantType(t *testing.T) {
 
 func TestGrantTypeService_DeleteClient(t *testing.T) {
 	var c Oauth2Service
-	c.ClientID = "403"
+	var l lg.Logger
+	c.Log = &l
+	var p px.GoProxy
+	c.Proxy = p.GetNewProxy()
+	fmt.Println("c.Proxy in test: ", c.Proxy)
+	c.ClientID = "10"
 	c.Host = "http://localhost:3000"
 	c.Token = tempToken
 	res := c.DeleteClient(strconv.FormatInt(CID3, 10))

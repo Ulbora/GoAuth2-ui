@@ -44,9 +44,9 @@ type Service interface {
 	GetClientRoleList(clientID string) *[]ClientRole
 	DeleteClientRole(id string) *ClientRoleResponse
 
-	// AddGrantType(rd *GrantType) *GrantTypeResponse
-	// GetGrantTypeList(clientID string) *[]GrantType
-	// DeleteGrantType(id string) *GrantTypeResponse
+	AddGrantType(rd *GrantType) *GrantTypeResponse
+	GetGrantTypeList(clientID string) *[]GrantType
+	DeleteGrantType(id string) *GrantTypeResponse
 
 	AddRedirectURI(rd *RedirectURI) *RedirectURIResponse
 	GetRedirectURIList(clientID string) *[]RedirectURI
