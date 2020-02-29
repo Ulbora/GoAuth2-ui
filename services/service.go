@@ -52,9 +52,9 @@ type Service interface {
 	GetRedirectURIList(clientID string) *[]RedirectURI
 	DeleteRedirectURI(id string) *RedirectURIResponse
 
-	// AddRoleURI(ru *RoleURI) *RoleURIResponse
-	// GetRoleURIList(uID string) *[]RoleURI
-	// DeleteRoleURI(ru *RoleURI) *RoleURIResponse
+	AddRoleURI(ru *RoleURI) *RoleURIResponse
+	GetRoleURIList(uID string) *[]RoleURI
+	DeleteRoleURI(ru *RoleURI) *RoleURIResponse
 
 	// AddUser(user *User) *UserResponse
 	// UpdateUser(user UpdateUser) *UserResponse
