@@ -56,14 +56,14 @@ func (r *Oauth2Service) AddRoleURI(ru *RoleURI) *RoleURIResponse {
 	aJSON, err := json.Marshal(ru)
 	r.Log.Debug("Add role uri: ", err)
 	if err == nil {
-		req, rErr := http.NewRequest("POST", addURL, bytes.NewBuffer(aJSON))
+		requr, rErr := http.NewRequest("POST", addURL, bytes.NewBuffer(aJSON))
 		r.Log.Debug("Add role uri req: ", rErr)
 		if rErr == nil {
-			req.Header.Set("Content-Type", "application/json")
-			req.Header.Set("Authorization", "Bearer "+r.Token)
-			req.Header.Set("clientId", r.ClientID)
-			req.Header.Set("apiKey", r.APIKey)
-			_, code := r.Proxy.Do(req, &rtn)
+			requr.Header.Set("Content-Type", "application/json")
+			requr.Header.Set("Authorization", "Bearer "+r.Token)
+			requr.Header.Set("clientId", r.ClientID)
+			requr.Header.Set("apiKey", r.APIKey)
+			_, code := r.Proxy.Do(requr, &rtn)
 			rtn.Code = code
 		}
 	}
@@ -74,13 +74,13 @@ func (r *Oauth2Service) AddRoleURI(ru *RoleURI) *RoleURIResponse {
 func (r *Oauth2Service) GetRoleURIList(uID string) *[]RoleURI {
 	var rtn = make([]RoleURI, 0)
 	var gURL = r.Host + "/rs/clientRoleUri/list/" + uID
-	req, rErr := http.NewRequest("GET", gURL, nil)
+	requrl, rErr := http.NewRequest("GET", gURL, nil)
 	r.Log.Debug("get role uri list req: ", rErr)
 	if rErr == nil {
-		req.Header.Set("clientId", r.ClientID)
-		req.Header.Set("Authorization", "Bearer "+r.Token)
-		req.Header.Set("apiKey", r.APIKey)
-		r.Proxy.Do(req, &rtn)
+		requrl.Header.Set("clientId", r.ClientID)
+		requrl.Header.Set("Authorization", "Bearer "+r.Token)
+		requrl.Header.Set("apiKey", r.APIKey)
+		r.Proxy.Do(requrl, &rtn)
 	}
 	return &rtn
 }
@@ -92,14 +92,14 @@ func (r *Oauth2Service) DeleteRoleURI(ru *RoleURI) *RoleURIResponse {
 	aJSON, err := json.Marshal(ru)
 	r.Log.Debug("delete role uri: ", err)
 	if err == nil {
-		req, rErr := http.NewRequest("POST", uURL, bytes.NewBuffer(aJSON))
+		requrd, rErr := http.NewRequest("POST", uURL, bytes.NewBuffer(aJSON))
 		r.Log.Debug("delete role uri req: ", rErr)
 		if rErr == nil {
-			req.Header.Set("Content-Type", "application/json")
-			req.Header.Set("Authorization", "Bearer "+r.Token)
-			req.Header.Set("clientId", r.ClientID)
-			req.Header.Set("apiKey", r.APIKey)
-			_, code := r.Proxy.Do(req, &rtn)
+			requrd.Header.Set("Content-Type", "application/json")
+			requrd.Header.Set("Authorization", "Bearer "+r.Token)
+			requrd.Header.Set("clientId", r.ClientID)
+			requrd.Header.Set("apiKey", r.APIKey)
+			_, code := r.Proxy.Do(requrd, &rtn)
 			rtn.Code = code
 		}
 	}

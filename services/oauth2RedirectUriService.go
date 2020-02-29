@@ -59,14 +59,14 @@ func (r *Oauth2Service) AddRedirectURI(rd *RedirectURI) *RedirectURIResponse {
 	aJSON, err := json.Marshal(rd)
 	r.Log.Debug("Add redirect: ", err)
 	if err == nil {
-		req, rErr := http.NewRequest("POST", addURL, bytes.NewBuffer(aJSON))
+		reqr, rErr := http.NewRequest("POST", addURL, bytes.NewBuffer(aJSON))
 		r.Log.Debug("Add redirect req: ", rErr)
 		if rErr == nil {
-			req.Header.Set("Content-Type", "application/json")
-			req.Header.Set("Authorization", "Bearer "+r.Token)
-			req.Header.Set("clientId", r.ClientID)
-			req.Header.Set("apiKey", r.APIKey)
-			_, code := r.Proxy.Do(req, &rtn)
+			reqr.Header.Set("Content-Type", "application/json")
+			reqr.Header.Set("Authorization", "Bearer "+r.Token)
+			reqr.Header.Set("clientId", r.ClientID)
+			reqr.Header.Set("apiKey", r.APIKey)
+			_, code := r.Proxy.Do(reqr, &rtn)
 			rtn.Code = code
 		}
 	}
@@ -77,13 +77,13 @@ func (r *Oauth2Service) AddRedirectURI(rd *RedirectURI) *RedirectURIResponse {
 func (r *Oauth2Service) GetRedirectURIList(clientID string) *[]RedirectURI {
 	var rtn = make([]RedirectURI, 0)
 	var gURL = r.Host + "/rs/clientRedirectUri/list/" + clientID
-	req, rErr := http.NewRequest("GET", gURL, nil)
+	reqrg, rErr := http.NewRequest("GET", gURL, nil)
 	r.Log.Debug("Get redirect req: ", rErr)
 	if rErr == nil {
-		req.Header.Set("clientId", r.ClientID)
-		req.Header.Set("Authorization", "Bearer "+r.Token)
-		req.Header.Set("apiKey", r.APIKey)
-		r.Proxy.Do(req, &rtn)
+		reqrg.Header.Set("clientId", r.ClientID)
+		reqrg.Header.Set("Authorization", "Bearer "+r.Token)
+		reqrg.Header.Set("apiKey", r.APIKey)
+		r.Proxy.Do(reqrg, &rtn)
 	}
 	return &rtn
 }
@@ -92,14 +92,14 @@ func (r *Oauth2Service) GetRedirectURIList(clientID string) *[]RedirectURI {
 func (r *Oauth2Service) DeleteRedirectURI(id string) *RedirectURIResponse {
 	var rtn = new(RedirectURIResponse)
 	var gURL = r.Host + "/rs/clientRedirectUri/delete/" + id
-	req, rErr := http.NewRequest("DELETE", gURL, nil)
+	reqrd, rErr := http.NewRequest("DELETE", gURL, nil)
 	r.Log.Debug("delete redirect req: ", rErr)
 	if rErr == nil {
-		req.Header.Set("Content-Type", "application/json")
-		req.Header.Set("Authorization", "Bearer "+r.Token)
-		req.Header.Set("clientId", r.ClientID)
-		req.Header.Set("apiKey", r.APIKey)
-		_, code := r.Proxy.Do(req, &rtn)
+		reqrd.Header.Set("Content-Type", "application/json")
+		reqrd.Header.Set("Authorization", "Bearer "+r.Token)
+		reqrd.Header.Set("clientId", r.ClientID)
+		reqrd.Header.Set("apiKey", r.APIKey)
+		_, code := r.Proxy.Do(reqrd, &rtn)
 		rtn.Code = code
 	}
 	return rtn
