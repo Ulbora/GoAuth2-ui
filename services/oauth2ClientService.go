@@ -141,14 +141,14 @@ func (c *Oauth2Service) SearchClient(client *Client) *[]Client {
 	aJSON, err := json.Marshal(client)
 	c.Log.Debug("search client: ", err)
 	if err == nil {
-		req, rErr := http.NewRequest("POST", addURL, bytes.NewBuffer(aJSON))
+		reqcs, rErr := http.NewRequest("POST", addURL, bytes.NewBuffer(aJSON))
 		c.Log.Debug("search client req: ", rErr)
 		if rErr == nil {
-			req.Header.Set("Content-Type", "application/json")
-			req.Header.Set("Authorization", "Bearer "+c.Token)
-			req.Header.Set("clientId", c.ClientID)
-			req.Header.Set("apiKey", c.APIKey)
-			c.Proxy.Do(req, &rtn)
+			reqcs.Header.Set("Content-Type", "application/json")
+			reqcs.Header.Set("Authorization", "Bearer "+c.Token)
+			reqcs.Header.Set("clientId", c.ClientID)
+			reqcs.Header.Set("apiKey", c.APIKey)
+			c.Proxy.Do(reqcs, &rtn)
 		}
 	}
 	return &rtn
