@@ -34,11 +34,11 @@ type Service interface {
 	SearchClient(client *Client) *[]Client
 	DeleteClient(id string) *ClientResponse
 
-	// AddAllowedURI(au *AllowedURI) *AllowedURIResponse
-	// UpdateAllowedURI(au *AllowedURI) *AllowedURIResponse
-	// GetAllowedURI(id string) *AllowedURI
-	// GetAllowedURIList(clientID string) *[]AllowedURI
-	// DeleteAllowedURI(id string) *AllowedURIResponse
+	AddAllowedURI(au *AllowedURI) *AllowedURIResponse
+	UpdateAllowedURI(au *AllowedURI) *AllowedURIResponse
+	GetAllowedURI(id string) *AllowedURI
+	GetAllowedURIList(clientID string) *[]AllowedURI
+	DeleteAllowedURI(id string) *AllowedURIResponse
 
 	// AddClientRole(cr *ClientRole) *ClientRoleResponse
 	// GetClientRoleList(clientID string) *[]ClientRole

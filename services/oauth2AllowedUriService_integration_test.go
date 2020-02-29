@@ -2,10 +2,7 @@
 package services
 
 import (
-	"bytes"
 	"fmt"
-	"io/ioutil"
-	"net/http"
 	"strconv"
 	"testing"
 
@@ -33,18 +30,14 @@ import (
 
 */
 
-var CID int64
+var CID6i int64
+var aIDi int64
 
-func TestClientService_AddClient(t *testing.T) {
+func TestAllowedURIServicei_AddClient(t *testing.T) {
 	var c Oauth2Service
 	var l lg.Logger
 	c.Log = &l
-	var p px.MockGoProxy
-	p.MockDoSuccess1 = true
-	var ress http.Response
-	ress.Body = ioutil.NopCloser(bytes.NewBufferString(`{"success":true, "id": 2}`))
-	p.MockResp = &ress
-	p.MockRespCode = 200
+	var p px.GoProxy
 	c.Proxy = p.GetNewProxy()
 	fmt.Println("c.Proxy in test: ", c.Proxy)
 	c.ClientID = "10"
@@ -59,138 +52,129 @@ func TestClientService_AddClient(t *testing.T) {
 	cc.Enabled = true
 	cc.Name = "A Big Company"
 	cc.RedirectURIs = uris
-	s := c.GetNew()
-	res := s.AddClient(&cc)
-	fmt.Println("res in add: ", res)
-
-	CID = res.ClientID
+	res := c.AddClient(&cc)
+	fmt.Print("add client res: ")
+	fmt.Println(res)
+	CID6i = res.ClientID
 	if res.Success != true {
 		t.Fail()
 	}
 }
 
-func TestClientService_UpdateClient(t *testing.T) {
+func TestAllowedURIServicei_AddAllowedURI(t *testing.T) {
 	var c Oauth2Service
 	var l lg.Logger
 	c.Log = &l
-	var p px.MockGoProxy
-	p.MockDoSuccess1 = true
-	var ress http.Response
-	ress.Body = ioutil.NopCloser(bytes.NewBufferString(`{"success":true, "id": 2}`))
-	p.MockResp = &ress
-	p.MockRespCode = 200
+	var p px.GoProxy
 	c.Proxy = p.GetNewProxy()
+	fmt.Println("c.Proxy in test: ", c.Proxy)
 	c.ClientID = "10"
 	c.Host = "http://localhost:3000"
 	c.Token = tempToken
-	var cc Client
-	cc.Email = "ken@ken1.com"
-	cc.Enabled = true
-	cc.Name = "A Really Big Company"
-	cc.WebSite = "http://www.ulbora.com"
-	cc.ClientID = CID
-	s := c.GetNew()
-	res := s.UpdateClient(&cc)
-	fmt.Print("res: ")
+	var uri AllowedURI
+	uri.URI = "/rs/mail/send"
+	uri.ClientID = CID6i
+	cc := c.GetNew()
+	res := cc.AddAllowedURI(&uri)
+
+	fmt.Print("add uri res: ")
+	fmt.Println(res)
+	aIDi = res.ID
+	if res.Success != true {
+		t.Fail()
+	}
+}
+
+func TestAllowedURIServicei_UpdateAllowedURI(t *testing.T) {
+	var c Oauth2Service
+	var l lg.Logger
+	c.Log = &l
+	var p px.GoProxy
+	c.Proxy = p.GetNewProxy()
+	fmt.Println("c.Proxy in test: ", c.Proxy)
+	c.ClientID = "10"
+	c.Host = "http://localhost:3000"
+	c.Token = tempToken
+	var uri AllowedURI
+	uri.ID = aIDi
+	uri.URI = "/rs/mail/get"
+	uri.ClientID = CID6i
+	res := c.UpdateAllowedURI(&uri)
+	fmt.Print("update uri res: ")
 	fmt.Println(res)
 	if res.Success != true {
 		t.Fail()
 	}
 }
 
-func TestClientService_GetClient(t *testing.T) {
+func TestAllowedURIServicei_GetAllowedURI(t *testing.T) {
 	var c Oauth2Service
 	var l lg.Logger
 	c.Log = &l
-	var p px.MockGoProxy
-	p.MockDoSuccess1 = true
-	var ress http.Response
-	ress.Body = ioutil.NopCloser(bytes.NewBufferString(`{"enabled":true, "clientId": 2}`))
-	p.MockResp = &ress
-	p.MockRespCode = 200
+	var p px.GoProxy
 	c.Proxy = p.GetNewProxy()
+	fmt.Println("c.Proxy in test: ", c.Proxy)
 	c.ClientID = "10"
 	c.Host = "http://localhost:3000"
 	c.Token = tempToken
-	fmt.Print("CID: ")
-	fmt.Println(CID)
-	s := c.GetNew()
-	res := s.GetClient(strconv.FormatInt(CID, 10))
-	fmt.Print("res mocked: ")
+	res := c.GetAllowedURI(strconv.FormatInt(aIDi, 10))
+	fmt.Print("get uri res: ")
 	fmt.Println(res)
-	if res.Enabled != true {
+	if res.URI != "/rs/mail/get" {
 		t.Fail()
 	}
 }
 
-func TestClientService_SearchClient(t *testing.T) {
+func TestAllowedURIServicei_GetAllowedURIList(t *testing.T) {
 	var c Oauth2Service
 	var l lg.Logger
 	c.Log = &l
-	var p px.MockGoProxy
-	p.MockDoSuccess1 = true
-	var ress http.Response
-	ress.Body = ioutil.NopCloser(bytes.NewBufferString(`[{"enabled":true, "clientId": 2}]`))
-	p.MockResp = &ress
-	p.MockRespCode = 200
+	var p px.GoProxy
 	c.Proxy = p.GetNewProxy()
+	fmt.Println("c.Proxy in test: ", c.Proxy)
 	c.ClientID = "10"
 	c.Host = "http://localhost:3000"
 	c.Token = tempToken
-	var cc Client
-	cc.Name = "Big"
-	s := c.GetNew()
-	res := s.SearchClient(&cc)
-	fmt.Print("searched res: ")
-	fmt.Println(res)
-	fmt.Println("res len: ", len(*res))
-	if res == nil || len(*res) == 0 {
-		t.Fail()
-	}
-}
-
-func TestClientService_GetClientList(t *testing.T) {
-	var c Oauth2Service
-	var l lg.Logger
-	c.Log = &l
-	var p px.MockGoProxy
-	p.MockDoSuccess1 = true
-	var ress http.Response
-	ress.Body = ioutil.NopCloser(bytes.NewBufferString(`[{"enabled":true, "clientId": 2}]`))
-	p.MockResp = &ress
-	p.MockRespCode = 200
-	c.Proxy = p.GetNewProxy()
-	c.ClientID = "10"
-	c.Host = "http://localhost:3000"
-	c.Token = tempToken
-	s := c.GetNew()
-	res := s.GetClientList()
-	fmt.Print("res list: ")
+	res := c.GetAllowedURIList(strconv.FormatInt(CID6i, 10))
+	fmt.Print("uri res list: ")
 	fmt.Println(res)
 	fmt.Print("len: ")
 	fmt.Println(len(*res))
-	if res == nil || len(*res) == 0 {
+	if res == nil || len(*res) != 1 {
 		t.Fail()
 	}
 }
 
-func TestClientService_DeleteClient(t *testing.T) {
+func TestAllowedURIServicei_DeleteAllowedURI(t *testing.T) {
 	var c Oauth2Service
 	var l lg.Logger
 	c.Log = &l
-	var p px.MockGoProxy
-	p.MockDoSuccess1 = true
-	var ress http.Response
-	ress.Body = ioutil.NopCloser(bytes.NewBufferString(`{"success":true, "id": 2}`))
-	p.MockResp = &ress
-	p.MockRespCode = 200
+	var p px.GoProxy
 	c.Proxy = p.GetNewProxy()
+	fmt.Println("c.Proxy in test: ", c.Proxy)
 	c.ClientID = "10"
 	c.Host = "http://localhost:3000"
 	c.Token = tempToken
-	s := c.GetNew()
-	res := s.DeleteClient(strconv.FormatInt(CID, 10))
-	fmt.Print("res deleted: ")
+	res := c.DeleteAllowedURI(strconv.FormatInt(aIDi, 10))
+	fmt.Print("res deleted uri: ")
+	fmt.Println(res)
+	if res.Success != true {
+		t.Fail()
+	}
+}
+
+func TestAllowedURIServicei_DeleteClient(t *testing.T) {
+	var c Oauth2Service
+	var l lg.Logger
+	c.Log = &l
+	var p px.GoProxy
+	c.Proxy = p.GetNewProxy()
+	fmt.Println("c.Proxy in test: ", c.Proxy)
+	c.ClientID = "10"
+	c.Host = "http://localhost:3000"
+	c.Token = tempToken
+	res := c.DeleteClient(strconv.FormatInt(CID6i, 10))
+	fmt.Print("res deleted client: ")
 	fmt.Println(res)
 	if res.Success != true {
 		t.Fail()
