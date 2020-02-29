@@ -17,6 +17,16 @@ github.com/Ulbora/GoAuth2-ui/services/oauth2AllowedUriService.go:117.17,122.3 4 
 github.com/Ulbora/GoAuth2-ui/services/oauth2AllowedUriService.go:127.73,132.17 5 1
 github.com/Ulbora/GoAuth2-ui/services/oauth2AllowedUriService.go:140.2,140.12 1 1
 github.com/Ulbora/GoAuth2-ui/services/oauth2AllowedUriService.go:132.17,139.3 6 1
+github.com/Ulbora/GoAuth2-ui/services/oauth2ClientRoleService.go:55.75,60.16 5 1
+github.com/Ulbora/GoAuth2-ui/services/oauth2ClientRoleService.go:72.2,72.12 1 1
+github.com/Ulbora/GoAuth2-ui/services/oauth2ClientRoleService.go:60.16,63.18 3 1
+github.com/Ulbora/GoAuth2-ui/services/oauth2ClientRoleService.go:63.18,70.4 6 1
+github.com/Ulbora/GoAuth2-ui/services/oauth2ClientRoleService.go:76.74,81.17 5 1
+github.com/Ulbora/GoAuth2-ui/services/oauth2ClientRoleService.go:87.2,87.13 1 1
+github.com/Ulbora/GoAuth2-ui/services/oauth2ClientRoleService.go:81.17,86.3 4 1
+github.com/Ulbora/GoAuth2-ui/services/oauth2ClientRoleService.go:91.73,96.17 5 1
+github.com/Ulbora/GoAuth2-ui/services/oauth2ClientRoleService.go:104.2,104.12 1 1
+github.com/Ulbora/GoAuth2-ui/services/oauth2ClientRoleService.go:96.17,103.3 6 1
 github.com/Ulbora/GoAuth2-ui/services/oauth2ClientService.go:61.67,66.16 5 1
 github.com/Ulbora/GoAuth2-ui/services/oauth2ClientService.go:79.2,79.12 1 1
 github.com/Ulbora/GoAuth2-ui/services/oauth2ClientService.go:66.16,69.18 3 1

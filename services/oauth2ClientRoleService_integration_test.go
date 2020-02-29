@@ -29,14 +29,22 @@ import (
 	"fmt"
 	"strconv"
 	"testing"
+
+	px "github.com/Ulbora/GoProxy"
+	lg "github.com/Ulbora/Level_Logger"
 )
 
-var CID4 int64
-var rID int64
+var CID4i int64
+var rIDi int64
 
-func TestClientRoleService_AddClient(t *testing.T) {
+func TestClientRoleServicei_AddClient(t *testing.T) {
 	var c Oauth2Service
-	c.ClientID = "403"
+	var l lg.Logger
+	c.Log = &l
+	var p px.GoProxy
+	c.Proxy = p.GetNewProxy()
+	fmt.Println("c.Proxy in test: ", c.Proxy)
+	c.ClientID = "10"
 	c.Host = "http://localhost:3000"
 	c.Token = tempToken
 	var uri RedirectURI
@@ -51,36 +59,47 @@ func TestClientRoleService_AddClient(t *testing.T) {
 	res := c.AddClient(&cc)
 	fmt.Print("add client res: ")
 	fmt.Println(res)
-	CID4 = res.ClientID
+	CID4i = res.ClientID
 	if res.Success != true {
 		t.Fail()
 	}
 }
 
-func TestClientRoleService_AddClientRole(t *testing.T) {
-	var c ClientRoleService
-	c.ClientID = "403"
+func TestClientRoleServicei_AddClientRole(t *testing.T) {
+	var c Oauth2Service
+	var l lg.Logger
+	c.Log = &l
+	var p px.GoProxy
+	c.Proxy = p.GetNewProxy()
+	fmt.Println("c.Proxy in test: ", c.Proxy)
+	c.ClientID = "10"
 	c.Host = "http://localhost:3000"
 	c.Token = tempToken
 	var cr ClientRole
 	cr.Role = "user"
-	cr.ClientID = CID4
-	res := c.AddClientRole(&cr)
+	cr.ClientID = CID4i
+	cc := c.GetNew()
+	res := cc.AddClientRole(&cr)
 
 	fmt.Print("add client role res: ")
 	fmt.Println(res)
-	rID = res.ID
+	rIDi = res.ID
 	if res.Success != true {
 		t.Fail()
 	}
 }
 
-func TestClientRoleService_GetClientRoleList(t *testing.T) {
-	var c ClientRoleService
-	c.ClientID = "403"
+func TestClientRoleServicei_GetClientRoleList(t *testing.T) {
+	var c Oauth2Service
+	var l lg.Logger
+	c.Log = &l
+	var p px.GoProxy
+	c.Proxy = p.GetNewProxy()
+	fmt.Println("c.Proxy in test: ", c.Proxy)
+	c.ClientID = "10"
 	c.Host = "http://localhost:3000"
 	c.Token = tempToken
-	res := c.GetClientRoleList(strconv.FormatInt(CID4, 10))
+	res := c.GetClientRoleList(strconv.FormatInt(CID4i, 10))
 	fmt.Print("client role res list: ")
 	fmt.Println(res)
 	fmt.Print("len: ")
@@ -91,12 +110,17 @@ func TestClientRoleService_GetClientRoleList(t *testing.T) {
 	}
 }
 
-func TestClientRoleService_DeleteClientRole(t *testing.T) {
-	var c ClientRoleService
-	c.ClientID = "403"
+func TestClientRoleServicei_DeleteClientRole(t *testing.T) {
+	var c Oauth2Service
+	var l lg.Logger
+	c.Log = &l
+	var p px.GoProxy
+	c.Proxy = p.GetNewProxy()
+	fmt.Println("c.Proxy in test: ", c.Proxy)
+	c.ClientID = "10"
 	c.Host = "http://localhost:3000"
 	c.Token = tempToken
-	res := c.DeleteClientRole(strconv.FormatInt(rID, 10))
+	res := c.DeleteClientRole(strconv.FormatInt(rIDi, 10))
 	fmt.Print("res deleted client role: ")
 	fmt.Println(res)
 	if res.Success != true {
@@ -104,12 +128,17 @@ func TestClientRoleService_DeleteClientRole(t *testing.T) {
 	}
 }
 
-func TestClientRoleService_DeleteClient(t *testing.T) {
+func TestClientRoleServicei_DeleteClient(t *testing.T) {
 	var c Oauth2Service
-	c.ClientID = "403"
+	var l lg.Logger
+	c.Log = &l
+	var p px.GoProxy
+	c.Proxy = p.GetNewProxy()
+	fmt.Println("c.Proxy in test: ", c.Proxy)
+	c.ClientID = "10"
 	c.Host = "http://localhost:3000"
 	c.Token = tempToken
-	res := c.DeleteClient(strconv.FormatInt(CID4, 10))
+	res := c.DeleteClient(strconv.FormatInt(CID4i, 10))
 	fmt.Print("res deleted client: ")
 	fmt.Println(res)
 	if res.Success != true {

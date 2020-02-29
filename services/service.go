@@ -40,9 +40,9 @@ type Service interface {
 	GetAllowedURIList(clientID string) *[]AllowedURI
 	DeleteAllowedURI(id string) *AllowedURIResponse
 
-	// AddClientRole(cr *ClientRole) *ClientRoleResponse
-	// GetClientRoleList(clientID string) *[]ClientRole
-	// DeleteClientRole(id string) *ClientRoleResponse
+	AddClientRole(cr *ClientRole) *ClientRoleResponse
+	GetClientRoleList(clientID string) *[]ClientRole
+	DeleteClientRole(id string) *ClientRoleResponse
 
 	// AddGrantType(rd *GrantType) *GrantTypeResponse
 	// GetGrantTypeList(clientID string) *[]GrantType
