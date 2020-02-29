@@ -34,12 +34,15 @@ import (
 	"testing"
 
 	px "github.com/Ulbora/GoProxy"
+	lg "github.com/Ulbora/Level_Logger"
 )
 
 var CID int64
 
 func TestClientService_AddClient(t *testing.T) {
 	var c Oauth2Service
+	var l lg.Logger
+	c.Log = &l
 	var p px.MockGoProxy
 	p.MockDoSuccess1 = true
 	var ress http.Response
@@ -72,6 +75,8 @@ func TestClientService_AddClient(t *testing.T) {
 
 func TestClientService_UpdateClient(t *testing.T) {
 	var c Oauth2Service
+	var l lg.Logger
+	c.Log = &l
 	var p px.MockGoProxy
 	p.MockDoSuccess1 = true
 	var ress http.Response
@@ -99,6 +104,8 @@ func TestClientService_UpdateClient(t *testing.T) {
 
 func TestClientService_GetClient(t *testing.T) {
 	var c Oauth2Service
+	var l lg.Logger
+	c.Log = &l
 	var p px.MockGoProxy
 	p.MockDoSuccess1 = true
 	var ress http.Response
@@ -122,6 +129,8 @@ func TestClientService_GetClient(t *testing.T) {
 
 func TestClientService_SearchClient(t *testing.T) {
 	var c Oauth2Service
+	var l lg.Logger
+	c.Log = &l
 	var p px.MockGoProxy
 	p.MockDoSuccess1 = true
 	var ress http.Response
@@ -146,6 +155,8 @@ func TestClientService_SearchClient(t *testing.T) {
 
 func TestClientService_GetClientList(t *testing.T) {
 	var c Oauth2Service
+	var l lg.Logger
+	c.Log = &l
 	var p px.MockGoProxy
 	p.MockDoSuccess1 = true
 	var ress http.Response
@@ -169,6 +180,8 @@ func TestClientService_GetClientList(t *testing.T) {
 
 func TestClientService_DeleteClient(t *testing.T) {
 	var c Oauth2Service
+	var l lg.Logger
+	c.Log = &l
 	var p px.MockGoProxy
 	p.MockDoSuccess1 = true
 	var ress http.Response

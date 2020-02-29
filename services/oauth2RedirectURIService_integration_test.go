@@ -34,15 +34,15 @@ import (
 	lg "github.com/Ulbora/Level_Logger"
 )
 
-var CID1 int64
+var CID2i int64
+var rdIDi int64
 
-func TestClientService_AddClienti(t *testing.T) {
+func TestRedirectURIServicei_AddClient(t *testing.T) {
 	var c Oauth2Service
 	var l lg.Logger
 	c.Log = &l
 	var p px.GoProxy
 	c.Proxy = p.GetNewProxy()
-	fmt.Println("c.Proxy in test: ", c.Proxy)
 	c.ClientID = "10"
 	c.Host = "http://localhost:3000"
 	c.Token = tempToken
@@ -56,15 +56,15 @@ func TestClientService_AddClienti(t *testing.T) {
 	cc.Name = "A Big Company"
 	cc.RedirectURIs = uris
 	res := c.AddClient(&cc)
-	fmt.Print("res: ")
+	fmt.Print("add client res: ")
 	fmt.Println(res)
-	CID1 = res.ClientID
+	CID2i = res.ClientID
 	if res.Success != true {
 		t.Fail()
 	}
 }
 
-func TestClientService_UpdateClienti(t *testing.T) {
+func TestRedirectURIServicei_AddRedirectURI(t *testing.T) {
 	var c Oauth2Service
 	var l lg.Logger
 	c.Log = &l
@@ -73,21 +73,21 @@ func TestClientService_UpdateClienti(t *testing.T) {
 	c.ClientID = "10"
 	c.Host = "http://localhost:3000"
 	c.Token = tempToken
-	var cc Client
-	cc.Email = "ken@ken1.com"
-	cc.Enabled = true
-	cc.Name = "A Really Big Company"
-	cc.WebSite = "http://www.ulbora.com"
-	cc.ClientID = CID1
-	res := c.UpdateClient(&cc)
-	fmt.Print("res: ")
+	var uri RedirectURI
+	uri.URI = "http://yahoooo.com"
+	uri.ClientID = CID2i
+	cc := c.GetNew()
+	res := cc.AddRedirectURI(&uri)
+
+	fmt.Print("add uri res: ")
 	fmt.Println(res)
+	rdIDi = res.ID
 	if res.Success != true {
 		t.Fail()
 	}
 }
 
-func TestClientService_GetClienti(t *testing.T) {
+func TestRedirectURIServicei_GetRedirectURIList(t *testing.T) {
 	var c Oauth2Service
 	var l lg.Logger
 	c.Log = &l
@@ -96,55 +96,17 @@ func TestClientService_GetClienti(t *testing.T) {
 	c.ClientID = "10"
 	c.Host = "http://localhost:3000"
 	c.Token = tempToken
-	fmt.Print("CID: ")
-	fmt.Println(CID1)
-	res := c.GetClient(strconv.FormatInt(CID1, 10))
-	fmt.Print("res: ")
-	fmt.Println(res)
-	if res.Enabled != true {
-		t.Fail()
-	}
-}
-
-func TestClientService_SearchClienti(t *testing.T) {
-	var c Oauth2Service
-	var l lg.Logger
-	c.Log = &l
-	var p px.GoProxy
-	c.Proxy = p.GetNewProxy()
-	c.ClientID = "10"
-	c.Host = "http://localhost:3000"
-	c.Token = tempToken
-	var cc Client
-	cc.Name = "Big"
-	res := c.SearchClient(&cc)
-	fmt.Print("searched res: ")
-	fmt.Println(res)
-	if res == nil || len(*res) == 0 {
-		t.Fail()
-	}
-}
-
-func TestClientService_GetClientListi(t *testing.T) {
-	var c Oauth2Service
-	var l lg.Logger
-	c.Log = &l
-	var p px.GoProxy
-	c.Proxy = p.GetNewProxy()
-	c.ClientID = "10"
-	c.Host = "http://localhost:3000"
-	c.Token = tempToken
-	res := c.GetClientList()
-	fmt.Print("res list: ")
+	res := c.GetRedirectURIList(strconv.FormatInt(CID2i, 10))
+	fmt.Print("uri res list: ")
 	fmt.Println(res)
 	fmt.Print("len: ")
 	fmt.Println(len(*res))
-	if res == nil || len(*res) == 0 {
+	if res == nil || len(*res) != 2 {
 		t.Fail()
 	}
 }
 
-func TestClientService_DeleteClienti(t *testing.T) {
+func TestRedirectURIServicei_DeleteRedirectURI(t *testing.T) {
 	var c Oauth2Service
 	var l lg.Logger
 	c.Log = &l
@@ -153,8 +115,25 @@ func TestClientService_DeleteClienti(t *testing.T) {
 	c.ClientID = "10"
 	c.Host = "http://localhost:3000"
 	c.Token = tempToken
-	res := c.DeleteClient(strconv.FormatInt(CID1, 10))
-	fmt.Print("res deleted: ")
+	res := c.DeleteRedirectURI(strconv.FormatInt(rdIDi, 10))
+	fmt.Print("res deleted uri: ")
+	fmt.Println(res)
+	if res.Success != true {
+		t.Fail()
+	}
+}
+
+func TestRedirectURIServicei_DeleteClient(t *testing.T) {
+	var c Oauth2Service
+	var l lg.Logger
+	c.Log = &l
+	var p px.GoProxy
+	c.Proxy = p.GetNewProxy()
+	c.ClientID = "10"
+	c.Host = "http://localhost:3000"
+	c.Token = tempToken
+	res := c.DeleteClient(strconv.FormatInt(CID2i, 10))
+	fmt.Print("res deleted client: ")
 	fmt.Println(res)
 	if res.Success != true {
 		t.Fail()

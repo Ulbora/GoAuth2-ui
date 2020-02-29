@@ -26,11 +26,15 @@
 package services
 
 import (
+	"bytes"
 	"fmt"
+	"io/ioutil"
+	"net/http"
 	"strconv"
 	"testing"
 
 	px "github.com/Ulbora/GoProxy"
+	lg "github.com/Ulbora/Level_Logger"
 )
 
 var CID2 int64
@@ -38,8 +42,16 @@ var rdID int64
 
 func TestRedirectURIService_AddClient(t *testing.T) {
 	var c Oauth2Service
-	var p px.GoProxy
+	var l lg.Logger
+	c.Log = &l
+	var p px.MockGoProxy
+	p.MockDoSuccess1 = true
+	var ress http.Response
+	ress.Body = ioutil.NopCloser(bytes.NewBufferString(`{"success":true, "id": 2}`))
+	p.MockResp = &ress
+	p.MockRespCode = 200
 	c.Proxy = p.GetNewProxy()
+	fmt.Println("c.Proxy in test: ", c.Proxy)
 	c.ClientID = "10"
 	c.Host = "http://localhost:3000"
 	c.Token = tempToken
@@ -62,14 +74,25 @@ func TestRedirectURIService_AddClient(t *testing.T) {
 }
 
 func TestRedirectURIService_AddRedirectURI(t *testing.T) {
-	var c RedirectURIService
+	var c Oauth2Service
+	var l lg.Logger
+	c.Log = &l
+	var p px.MockGoProxy
+	p.MockDoSuccess1 = true
+	var ress http.Response
+	ress.Body = ioutil.NopCloser(bytes.NewBufferString(`{"success":true, "id": 2}`))
+	p.MockResp = &ress
+	p.MockRespCode = 200
+	c.Proxy = p.GetNewProxy()
+	fmt.Println("c.Proxy in test: ", c.Proxy)
 	c.ClientID = "10"
 	c.Host = "http://localhost:3000"
 	c.Token = tempToken
 	var uri RedirectURI
 	uri.URI = "http://yahoooo.com"
 	uri.ClientID = CID2
-	res := c.AddRedirectURI(&uri)
+	cc := c.GetNew()
+	res := cc.AddRedirectURI(&uri)
 
 	fmt.Print("add uri res: ")
 	fmt.Println(res)
@@ -80,7 +103,16 @@ func TestRedirectURIService_AddRedirectURI(t *testing.T) {
 }
 
 func TestRedirectURIService_GetRedirectURIList(t *testing.T) {
-	var c RedirectURIService
+	var c Oauth2Service
+	var l lg.Logger
+	c.Log = &l
+	var p px.MockGoProxy
+	p.MockDoSuccess1 = true
+	var ress http.Response
+	ress.Body = ioutil.NopCloser(bytes.NewBufferString(`[{"id":3, "clientId": 2}]`))
+	p.MockResp = &ress
+	p.MockRespCode = 200
+	c.Proxy = p.GetNewProxy()
 	c.ClientID = "10"
 	c.Host = "http://localhost:3000"
 	c.Token = tempToken
@@ -89,13 +121,22 @@ func TestRedirectURIService_GetRedirectURIList(t *testing.T) {
 	fmt.Println(res)
 	fmt.Print("len: ")
 	fmt.Println(len(*res))
-	if res == nil || len(*res) != 2 {
+	if res == nil || len(*res) != 1 {
 		t.Fail()
 	}
 }
 
 func TestRedirectURIService_DeleteRedirectURI(t *testing.T) {
-	var c RedirectURIService
+	var c Oauth2Service
+	var l lg.Logger
+	c.Log = &l
+	var p px.MockGoProxy
+	p.MockDoSuccess1 = true
+	var ress http.Response
+	ress.Body = ioutil.NopCloser(bytes.NewBufferString(`{"success":true, "id": 2}`))
+	p.MockResp = &ress
+	p.MockRespCode = 200
+	c.Proxy = p.GetNewProxy()
 	c.ClientID = "10"
 	c.Host = "http://localhost:3000"
 	c.Token = tempToken
@@ -109,7 +150,14 @@ func TestRedirectURIService_DeleteRedirectURI(t *testing.T) {
 
 func TestRedirectURIService_DeleteClient(t *testing.T) {
 	var c Oauth2Service
-	var p px.GoProxy
+	var l lg.Logger
+	c.Log = &l
+	var p px.MockGoProxy
+	p.MockDoSuccess1 = true
+	var ress http.Response
+	ress.Body = ioutil.NopCloser(bytes.NewBufferString(`{"success":true, "id": 2}`))
+	p.MockResp = &ress
+	p.MockRespCode = 200
 	c.Proxy = p.GetNewProxy()
 	c.ClientID = "10"
 	c.Host = "http://localhost:3000"

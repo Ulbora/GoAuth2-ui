@@ -3,6 +3,7 @@ package services
 
 import (
 	px "github.com/Ulbora/GoProxy"
+	lg "github.com/Ulbora/Level_Logger"
 )
 
 /*
@@ -47,9 +48,9 @@ type Service interface {
 	// GetGrantTypeList(clientID string) *[]GrantType
 	// DeleteGrantType(id string) *GrantTypeResponse
 
-	// AddRedirectURI(rd *RedirectURI) *RedirectURIResponse
-	// GetRedirectURIList(clientID string) *[]RedirectURI
-	// DeleteRedirectURI(id string) *RedirectURIResponse
+	AddRedirectURI(rd *RedirectURI) *RedirectURIResponse
+	GetRedirectURIList(clientID string) *[]RedirectURI
+	DeleteRedirectURI(id string) *RedirectURIResponse
 
 	// AddRoleURI(ru *RoleURI) *RoleURIResponse
 	// GetRoleURIList(uID string) *[]RoleURI
@@ -74,6 +75,7 @@ type Oauth2Service struct {
 	Hashed   string
 	Host     string
 	Proxy    px.Proxy
+	Log      *lg.Logger
 }
 
 //GetNew GetNew

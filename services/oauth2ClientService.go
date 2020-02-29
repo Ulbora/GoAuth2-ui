@@ -62,8 +62,10 @@ func (c *Oauth2Service) AddClient(client *Client) *ClientResponse {
 	var rtn = new(ClientResponse)
 	var addURL = c.Host + "/rs/client/add"
 	aJSON, err := json.Marshal(client)
+	c.Log.Debug("Add Client: ", err)
 	if err == nil {
 		req, rErr := http.NewRequest("POST", addURL, bytes.NewBuffer(aJSON))
+		c.Log.Debug("Add client req: ", rErr)
 		if rErr == nil {
 			req.Header.Set("Content-Type", "application/json")
 			req.Header.Set("Authorization", "Bearer "+c.Token)
@@ -84,8 +86,10 @@ func (c *Oauth2Service) UpdateClient(client *Client) *ClientResponse {
 
 	//fmt.Println(content.Text)
 	aJSON, err := json.Marshal(client)
+	c.Log.Debug("Update client: ", err)
 	if err == nil {
 		req, rErr := http.NewRequest("PUT", upURL, bytes.NewBuffer(aJSON))
+		c.Log.Debug("Update client req: ", rErr)
 		if rErr == nil {
 			req.Header.Set("Content-Type", "application/json")
 			req.Header.Set("Authorization", "Bearer "+c.Token)
@@ -104,6 +108,7 @@ func (c *Oauth2Service) GetClient(clientID string) *Client {
 	var gURL = c.Host + "/rs/client/get/" + clientID
 	//fmt.Println(gURL)
 	req, rErr := http.NewRequest("GET", gURL, nil)
+	c.Log.Debug("Get client req: ", rErr)
 	if rErr == nil {
 		req.Header.Set("clientId", c.ClientID)
 		req.Header.Set("Authorization", "Bearer "+c.Token)
@@ -119,6 +124,7 @@ func (c *Oauth2Service) GetClientList() *[]Client {
 	var gURL = c.Host + "/rs/client/list"
 	//fmt.Println(gURL)
 	req, rErr := http.NewRequest("GET", gURL, nil)
+	c.Log.Debug("Get client list req: ", rErr)
 	if rErr == nil {
 		req.Header.Set("clientId", c.ClientID)
 		req.Header.Set("Authorization", "Bearer "+c.Token)
@@ -133,8 +139,10 @@ func (c *Oauth2Service) SearchClient(client *Client) *[]Client {
 	var rtn = make([]Client, 0)
 	var addURL = c.Host + "/rs/client/search"
 	aJSON, err := json.Marshal(client)
+	c.Log.Debug("search client: ", err)
 	if err == nil {
 		req, rErr := http.NewRequest("POST", addURL, bytes.NewBuffer(aJSON))
+		c.Log.Debug("search client req: ", rErr)
 		if rErr == nil {
 			req.Header.Set("Content-Type", "application/json")
 			req.Header.Set("Authorization", "Bearer "+c.Token)
@@ -152,6 +160,7 @@ func (c *Oauth2Service) DeleteClient(id string) *ClientResponse {
 	var gURL = c.Host + "/rs/client/delete/" + id
 	//fmt.Println(gURL)
 	req, rErr := http.NewRequest("DELETE", gURL, nil)
+	c.Log.Debug("Delete client: ", rErr)
 	if rErr == nil {
 		req.Header.Set("Content-Type", "application/json")
 		req.Header.Set("Authorization", "Bearer "+c.Token)

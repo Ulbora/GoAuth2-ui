@@ -4,8 +4,6 @@ package services
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
-	"log"
 	"net/http"
 )
 
@@ -55,106 +53,54 @@ type RedirectURIResponse struct {
 }
 
 //AddRedirectURI AddRedirectURI
-func (r *RedirectURIService) AddRedirectURI(rd *RedirectURI) *RedirectURIResponse {
+func (r *Oauth2Service) AddRedirectURI(rd *RedirectURI) *RedirectURIResponse {
 	var rtn = new(RedirectURIResponse)
 	var addURL = r.Host + "/rs/clientRedirectUri/add"
 	aJSON, err := json.Marshal(rd)
-
-	if err != nil {
-		fmt.Println(err)
-	} else {
+	r.Log.Debug("Add redirect: ", err)
+	if err == nil {
 		req, rErr := http.NewRequest("POST", addURL, bytes.NewBuffer(aJSON))
-		if rErr != nil {
-			fmt.Print("request err: ")
-			fmt.Println(rErr)
-		} else {
+		r.Log.Debug("Add redirect req: ", rErr)
+		if rErr == nil {
 			req.Header.Set("Content-Type", "application/json")
 			req.Header.Set("Authorization", "Bearer "+r.Token)
 			req.Header.Set("clientId", r.ClientID)
-			//req.Header.Set("userId", c.UserID)
-			//req.Header.Set("hashed", c.Hashed)
 			req.Header.Set("apiKey", r.APIKey)
-			client := &http.Client{}
-			resp, cErr := client.Do(req)
-			if cErr != nil {
-				fmt.Print("Redirect URI Add err: ")
-				fmt.Println(cErr)
-			} else {
-				defer resp.Body.Close()
-				//fmt.Print("resp: ")
-				//fmt.Println(resp)
-				decoder := json.NewDecoder(resp.Body)
-				error := decoder.Decode(&rtn)
-				if error != nil {
-					log.Println(error.Error())
-				}
-				rtn.Code = resp.StatusCode
-			}
+			_, code := r.Proxy.Do(req, &rtn)
+			rtn.Code = code
 		}
 	}
 	return rtn
 }
 
 // GetRedirectURIList get GetRedirectURIList list
-func (r *RedirectURIService) GetRedirectURIList(clientID string) *[]RedirectURI {
+func (r *Oauth2Service) GetRedirectURIList(clientID string) *[]RedirectURI {
 	var rtn = make([]RedirectURI, 0)
 	var gURL = r.Host + "/rs/clientRedirectUri/list/" + clientID
-	//fmt.Println(gURL)
 	req, rErr := http.NewRequest("GET", gURL, nil)
-	if rErr != nil {
-		fmt.Print("request err: ")
-		fmt.Println(rErr)
-	} else {
+	r.Log.Debug("Get redirect req: ", rErr)
+	if rErr == nil {
 		req.Header.Set("clientId", r.ClientID)
 		req.Header.Set("Authorization", "Bearer "+r.Token)
 		req.Header.Set("apiKey", r.APIKey)
-		client := &http.Client{}
-		resp, cErr := client.Do(req)
-		if cErr != nil {
-			fmt.Print("Redirect URI list Service read err: ")
-			fmt.Println(cErr)
-		} else {
-			defer resp.Body.Close()
-			decoder := json.NewDecoder(resp.Body)
-			error := decoder.Decode(&rtn)
-			if error != nil {
-				log.Println(error.Error())
-			}
-		}
+		r.Proxy.Do(req, &rtn)
 	}
 	return &rtn
 }
 
 // DeleteRedirectURI delete DeleteRedirectURI
-func (r *RedirectURIService) DeleteRedirectURI(id string) *RedirectURIResponse {
+func (r *Oauth2Service) DeleteRedirectURI(id string) *RedirectURIResponse {
 	var rtn = new(RedirectURIResponse)
 	var gURL = r.Host + "/rs/clientRedirectUri/delete/" + id
-	//fmt.Println(gURL)
 	req, rErr := http.NewRequest("DELETE", gURL, nil)
-	if rErr != nil {
-		fmt.Print("request err: ")
-		fmt.Println(rErr)
-	} else {
+	r.Log.Debug("delete redirect req: ", rErr)
+	if rErr == nil {
 		req.Header.Set("Content-Type", "application/json")
 		req.Header.Set("Authorization", "Bearer "+r.Token)
 		req.Header.Set("clientId", r.ClientID)
-		//req.Header.Set("userId", r.UserID)
-		//req.Header.Set("hashed", r.Hashed)
 		req.Header.Set("apiKey", r.APIKey)
-		client := &http.Client{}
-		resp, cErr := client.Do(req)
-		if cErr != nil {
-			fmt.Print("redirect uri Service delete err: ")
-			fmt.Println(cErr)
-		} else {
-			defer resp.Body.Close()
-			decoder := json.NewDecoder(resp.Body)
-			error := decoder.Decode(&rtn)
-			if error != nil {
-				log.Println(error.Error())
-			}
-			rtn.Code = resp.StatusCode
-		}
+		_, code := r.Proxy.Do(req, &rtn)
+		rtn.Code = code
 	}
 	return rtn
 }
