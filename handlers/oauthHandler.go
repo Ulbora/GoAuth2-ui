@@ -80,7 +80,7 @@ func (h *OauthHandler) HandleOauth2(w http.ResponseWriter, r *http.Request) {
 
 			if clientID != "" {
 				h.Log.Debug("ClientId in HandleOauth2: ", clientID)
-
+				h.Service.SetToken(h.token.AccessToken)
 				res, _ := h.Service.GetClient(clientID)
 
 				var page oauthPage

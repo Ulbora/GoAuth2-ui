@@ -59,6 +59,7 @@ func (h *OauthHandler) HandleClients(w http.ResponseWriter, r *http.Request) {
 			h.Log.Debug("client name in HandleClients: ", clientName)
 
 			if clientName != "" {
+				h.Service.SetToken(h.token.AccessToken)
 
 				var cc services.Client
 				cc.Name = clientName
@@ -71,7 +72,6 @@ func (h *OauthHandler) HandleClients(w http.ResponseWriter, r *http.Request) {
 			h.Templates.ExecuteTemplate(w, "clients.html", &page)
 		}
 	}
-
 }
 
 //HandleAddClient HandleAddClient
@@ -106,6 +106,7 @@ func (h *OauthHandler) HandleEditClient(w http.ResponseWriter, r *http.Request) 
 			clientID := vars["clientId"]
 
 			if clientID != "" {
+				h.Service.SetToken(h.token.AccessToken)
 				res, _ := h.Service.GetClient(clientID)
 				var page oauthPage
 				page.ClientActive = "active"
@@ -168,6 +169,7 @@ func (h *OauthHandler) HandleNewClient(w http.ResponseWriter, r *http.Request) {
 				uris = append(uris, uri)
 			}
 			cc.RedirectURIs = uris
+			h.Service.SetToken(h.token.AccessToken)
 
 			res := h.Service.AddClient(&cc)
 			if res.Success == true {
@@ -224,6 +226,8 @@ func (h *OauthHandler) HandleUpdateClient(w http.ResponseWriter, r *http.Request
 				cc.Enabled = false
 			}
 			cc.WebSite = webSite
+
+			h.Service.SetToken(h.token.AccessToken)
 
 			res := h.Service.UpdateClient(&cc)
 			if res.Success == true {

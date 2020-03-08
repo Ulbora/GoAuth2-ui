@@ -81,15 +81,15 @@ func (h *OauthHandler) handleToken(w http.ResponseWriter, r *http.Request) {
 	h.Log.Debug("handle token")
 	if state == h.ClientCreds.AuthCodeState {
 
-		h.AuthToken.SetOauthHost(h.OauthHost)
-		h.AuthToken.SetClientID(h.ClientCreds.AuthCodeClient)
-		h.AuthToken.SetSecret(h.ClientCreds.AuthCodeSecret)
-		h.AuthToken.SetCode(code)
-		h.AuthToken.SetRedirectURI(h.getRedirectURI(r, authCodeRedirectURI))
+		h.Auth.SetOauthHost(h.OauthHost)
+		h.Auth.SetClientID(h.ClientCreds.AuthCodeClient)
+		h.Auth.SetSecret(h.ClientCreds.AuthCodeSecret)
+		h.Auth.SetCode(code)
+		h.Auth.SetRedirectURI(h.getRedirectURI(r, authCodeRedirectURI))
 
 		h.Log.Debug("getting token")
 
-		resp := h.AuthToken.AuthCodeToken()
+		resp := h.Auth.AuthCodeToken()
 
 		h.Log.Debug("token len: ", len(resp.AccessToken))
 

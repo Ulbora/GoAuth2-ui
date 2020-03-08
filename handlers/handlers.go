@@ -93,7 +93,7 @@ type OauthHandler struct {
 	OauthHost     string
 	UserHost      string
 	SchemeDefault string // = "http://"
-	AuthToken     oauth2.AuthToken
+	Auth          oauth2.AuthToken
 	token         *oauth2.Token
 	//Client          oa.Client
 	//AssetControl    rc.AssetControl

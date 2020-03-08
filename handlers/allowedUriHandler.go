@@ -53,7 +53,7 @@ func (h *OauthHandler) HandleAllowedUris(w http.ResponseWriter, r *http.Request)
 			clientID := vars["clientId"]
 			h.Log.Debug("clientID: ", clientID)
 			if clientID != "" {
-
+				h.Service.SetToken(h.token.AccessToken)
 				res, _ := h.Service.GetClient(clientID)
 				h.Log.Debug("client res: ", *res)
 
@@ -128,6 +128,7 @@ func (h *OauthHandler) HandleAllowedUrisAdd(w http.ResponseWriter, r *http.Reque
 			h.Log.Debug("clientId: ", clientID)
 
 			if roleIDStr != "" && clientIDStr != "" {
+				h.Service.SetToken(h.token.AccessToken)
 
 				var auu services.AllowedURI
 				auu.ClientID = clientID
@@ -196,6 +197,7 @@ func (h *OauthHandler) HandleAllowedUrisUpdate(w http.ResponseWriter, r *http.Re
 			auu.ID = ID
 			auu.ClientID = clientID
 			auu.URI = uri
+			h.Service.SetToken(h.token.AccessToken)
 			aures := h.Service.UpdateAllowedURI(&auu)
 			h.Log.Debug("aures: ", *aures)
 			if aures.Success == true {
@@ -250,6 +252,7 @@ func (h *OauthHandler) HandleAllowedUrisDelete(w http.ResponseWriter, r *http.Re
 			h.Log.Debug("roleID: ", roleID)
 
 			if IDStr != "" && clientIDStr != "" && roleIDStr != "" {
+				h.Service.SetToken(h.token.AccessToken)
 
 				var crr services.RoleURI
 				crr.ClientRoleID = roleID

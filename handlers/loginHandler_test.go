@@ -84,7 +84,7 @@ func TestOauthHandler_handleToken(t *testing.T) {
 	var mockAcTkn oauth2.MockAuthCodeToken
 	mockAcTkn.MockToken = &mTkn
 
-	h.AuthToken = &mockAcTkn
+	h.Auth = &mockAcTkn
 
 	var cc ClientCreds
 	cc.AuthCodeState = "123"
