@@ -64,7 +64,7 @@ func (r *Oauth2Service) AddClientRole(cr *ClientRole) *ClientRoleResponse {
 			req.Header.Set("Content-Type", "application/json")
 			req.Header.Set("Authorization", "Bearer "+r.Token)
 			req.Header.Set("clientId", r.ClientID)
-			req.Header.Set("apiKey", r.APIKey)
+			//req.Header.Set("apiKey", r.APIKey)
 			_, code := r.Proxy.Do(req, &rtn)
 			rtn.Code = code
 		}
@@ -73,18 +73,19 @@ func (r *Oauth2Service) AddClientRole(cr *ClientRole) *ClientRoleResponse {
 }
 
 // GetClientRoleList get GetClientRoleList list
-func (r *Oauth2Service) GetClientRoleList(clientID string) *[]ClientRole {
+func (r *Oauth2Service) GetClientRoleList(clientID string) (*[]ClientRole, int) {
 	var rtn = make([]ClientRole, 0)
+	var code int
 	var gURL = r.Host + "/rs/clientRole/list/" + clientID
 	req, rErr := http.NewRequest("GET", gURL, nil)
 	r.Log.Debug("Get client role list req: ", rErr)
 	if rErr == nil {
 		req.Header.Set("clientId", r.ClientID)
 		req.Header.Set("Authorization", "Bearer "+r.Token)
-		req.Header.Set("apiKey", r.APIKey)
-		r.Proxy.Do(req, &rtn)
+		//req.Header.Set("apiKey", r.APIKey)
+		_, code = r.Proxy.Do(req, &rtn)
 	}
-	return &rtn
+	return &rtn, code
 }
 
 // DeleteClientRole delete DeleteClientRole
@@ -97,7 +98,7 @@ func (r *Oauth2Service) DeleteClientRole(id string) *ClientRoleResponse {
 		req.Header.Set("Content-Type", "application/json")
 		req.Header.Set("Authorization", "Bearer "+r.Token)
 		req.Header.Set("clientId", r.ClientID)
-		req.Header.Set("apiKey", r.APIKey)
+		//req.Header.Set("apiKey", r.APIKey)
 		_, code := r.Proxy.Do(req, &rtn)
 		rtn.Code = code
 	}

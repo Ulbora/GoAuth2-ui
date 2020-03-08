@@ -112,12 +112,12 @@ func TestRedirectURIService_GetRedirectURIList(t *testing.T) {
 	c.ClientID = "10"
 	c.Host = "http://localhost:3000"
 	c.Token = tempToken
-	res := c.GetRedirectURIList(strconv.FormatInt(CID2, 10))
+	res, code := c.GetRedirectURIList(strconv.FormatInt(CID2, 10))
 	fmt.Print("uri res list: ")
 	fmt.Println(res)
 	fmt.Print("len: ")
 	fmt.Println(len(*res))
-	if res == nil || len(*res) != 1 {
+	if res == nil || len(*res) != 1 || code != 200 {
 		t.Fail()
 	}
 }

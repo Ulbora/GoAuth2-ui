@@ -113,13 +113,13 @@ func TestClientRoleService_GetClientRoleList(t *testing.T) {
 	c.ClientID = "10"
 	c.Host = "http://localhost:3000"
 	c.Token = tempToken
-	res := c.GetClientRoleList(strconv.FormatInt(CID4, 10))
+	res, code := c.GetClientRoleList(strconv.FormatInt(CID4, 10))
 	fmt.Print("client role res list: ")
 	fmt.Println(res)
 	fmt.Print("len: ")
 	fmt.Println(len(*res))
 
-	if res == nil || len(*res) != 1 || (*res)[0].Role != "user" {
+	if res == nil || len(*res) != 1 || (*res)[0].Role != "user" || code != 200 {
 		t.Fail()
 	}
 }

@@ -29,52 +29,54 @@ import (
 type Service interface {
 	AddClient(client *Client) *ClientResponse
 	UpdateClient(client *Client) *ClientResponse
-	GetClient(clientID string) *Client
-	GetClientList() *[]Client
-	SearchClient(client *Client) *[]Client
+	GetClient(clientID string) (*Client, int)
+	GetClientList() (*[]Client, int)
+	SearchClient(client *Client) (*[]Client, int)
 	DeleteClient(id string) *ClientResponse
 
 	AddAllowedURI(au *AllowedURI) *AllowedURIResponse
 	UpdateAllowedURI(au *AllowedURI) *AllowedURIResponse
-	GetAllowedURI(id string) *AllowedURI
-	GetAllowedURIList(clientID string) *[]AllowedURI
+	GetAllowedURI(id string) (*AllowedURI, int)
+	GetAllowedURIList(clientID string) (*[]AllowedURI, int)
 	DeleteAllowedURI(id string) *AllowedURIResponse
 
 	AddClientRole(cr *ClientRole) *ClientRoleResponse
-	GetClientRoleList(clientID string) *[]ClientRole
+	GetClientRoleList(clientID string) (*[]ClientRole, int)
 	DeleteClientRole(id string) *ClientRoleResponse
 
 	AddGrantType(rd *GrantType) *GrantTypeResponse
-	GetGrantTypeList(clientID string) *[]GrantType
+	GetGrantTypeList(clientID string) (*[]GrantType, int)
 	DeleteGrantType(id string) *GrantTypeResponse
 
 	AddRedirectURI(rd *RedirectURI) *RedirectURIResponse
-	GetRedirectURIList(clientID string) *[]RedirectURI
+	GetRedirectURIList(clientID string) (*[]RedirectURI, int)
 	DeleteRedirectURI(id string) *RedirectURIResponse
 
 	AddRoleURI(ru *RoleURI) *RoleURIResponse
-	GetRoleURIList(uID string) *[]RoleURI
+	GetRoleURIList(uID string) (*[]RoleURI, int)
 	DeleteRoleURI(ru *RoleURI) *RoleURIResponse
 
 	AddUser(user *User) *UserResponse
 	UpdateUser(user UpdateUser) *UserResponse
-	GetUser(username string, clientID string) *User
-	GetUserList() *[]User
-	SearchUserList(clientID string) *[]User
+	GetUser(username string, clientID string) (*User, int)
+	GetUserList() (*[]User, int)
+	SearchUserList(clientID string) (*[]User, int)
 	DeleteUser(username string, clientID string) *UserResponse
-	GetRoleList() *[]Role
+	GetRoleList() (*[]Role, int)
+
+	SetToken(token string)
 }
 
 //Oauth2Service Oauth2Service
 type Oauth2Service struct {
 	Token    string
 	ClientID string
-	APIKey   string
-	UserID   string
-	Hashed   string
-	Host     string
-	Proxy    px.Proxy
-	Log      *lg.Logger
+	//APIKey   string
+	//UserID string
+	//Hashed string
+	Host  string
+	Proxy px.Proxy
+	Log   *lg.Logger
 }
 
 //GetNew GetNew
@@ -82,4 +84,9 @@ func (s *Oauth2Service) GetNew() Service {
 	var sr Service
 	sr = s
 	return sr
+}
+
+//SetToken SetToken
+func (s *Oauth2Service) SetToken(token string) {
+	s.Token = token
 }

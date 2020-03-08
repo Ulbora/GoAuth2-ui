@@ -97,7 +97,7 @@ func TestGrantTypeServicei_GetGrantTypeList(t *testing.T) {
 	c.ClientID = "10"
 	c.Host = "http://localhost:3000"
 	c.Token = tempToken
-	res := c.GetGrantTypeList(strconv.FormatInt(CID3i, 10))
+	res, _ := c.GetGrantTypeList(strconv.FormatInt(CID3i, 10))
 	fmt.Print("grant type res list: ")
 	fmt.Println(res)
 	fmt.Print("len: ")

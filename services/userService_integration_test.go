@@ -169,7 +169,7 @@ func TestUserServicei_GetUser(t *testing.T) {
 	c.Host = "http://localhost:3001"
 	c.Token = tempToken
 
-	res := c.GetUser(UIDi, CLIDi)
+	res, _ := c.GetUser(UIDi, CLIDi)
 	fmt.Print("res: ")
 	fmt.Println(res)
 	if res.Username != UIDi || res.Enabled == false {
@@ -188,7 +188,7 @@ func TestUserServicei_GetUserList(t *testing.T) {
 	c.Host = "http://localhost:3001"
 	c.Token = tempToken
 
-	res := c.GetUserList()
+	res, _ := c.GetUserList()
 	fmt.Print("res: ")
 	fmt.Println(res)
 	if len(*res) == 0 {
@@ -207,7 +207,7 @@ func TestUserServicei_SearchUserList(t *testing.T) {
 	c.Host = "http://localhost:3001"
 	c.Token = tempToken
 
-	res := c.SearchUserList(CLIDi)
+	res, _ := c.SearchUserList(CLIDi)
 	fmt.Print("res: ")
 	fmt.Println(res)
 	if len(*res) == 0 {
@@ -245,7 +245,7 @@ func TestUserServicei_GetRoleList(t *testing.T) {
 	c.Host = "http://localhost:3001"
 	c.Token = tempToken
 
-	res := c.GetRoleList()
+	res, _ := c.GetRoleList()
 	fmt.Print("role res: ")
 	fmt.Println(res)
 	if len(*res) == 0 {

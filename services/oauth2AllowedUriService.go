@@ -27,15 +27,15 @@ import (
 
 */
 
-//AllowedURIService service
-type AllowedURIService struct {
-	Token    string
-	ClientID string
-	APIKey   string
-	UserID   string
-	Hashed   string
-	Host     string
-}
+// //AllowedURIService service
+// type AllowedURIService struct {
+// 	Token    string
+// 	ClientID string
+// 	APIKey   string
+// 	UserID   string
+// 	Hashed   string
+// 	Host     string
+// }
 
 //AllowedURI AllowedURI
 type AllowedURI struct {
@@ -64,7 +64,7 @@ func (a *Oauth2Service) AddAllowedURI(au *AllowedURI) *AllowedURIResponse {
 			req.Header.Set("Content-Type", "application/json")
 			req.Header.Set("Authorization", "Bearer "+a.Token)
 			req.Header.Set("clientId", a.ClientID)
-			req.Header.Set("apiKey", a.APIKey)
+			//req.Header.Set("apiKey", a.APIKey)
 			_, code := a.Proxy.Do(req, &rtn)
 			rtn.Code = code
 		}
@@ -85,7 +85,7 @@ func (a *Oauth2Service) UpdateAllowedURI(au *AllowedURI) *AllowedURIResponse {
 			req.Header.Set("Content-Type", "application/json")
 			req.Header.Set("Authorization", "Bearer "+a.Token)
 			req.Header.Set("clientId", a.ClientID)
-			req.Header.Set("apiKey", a.APIKey)
+			//req.Header.Set("apiKey", a.APIKey)
 			_, code := a.Proxy.Do(req, &rtn)
 			rtn.Code = code
 		}
@@ -94,33 +94,35 @@ func (a *Oauth2Service) UpdateAllowedURI(au *AllowedURI) *AllowedURIResponse {
 }
 
 // GetAllowedURI get GetAllowedURI
-func (a *Oauth2Service) GetAllowedURI(id string) *AllowedURI {
+func (a *Oauth2Service) GetAllowedURI(id string) (*AllowedURI, int) {
 	var rtn = new(AllowedURI)
+	var code int
 	var gURL = a.Host + "/rs/clientAllowedUri/get/" + id
 	req, rErr := http.NewRequest("GET", gURL, nil)
 	a.Log.Debug("get allowed uri req: ", rErr)
 	if rErr == nil {
 		req.Header.Set("clientId", a.ClientID)
 		req.Header.Set("Authorization", "Bearer "+a.Token)
-		req.Header.Set("apiKey", a.APIKey)
-		a.Proxy.Do(req, &rtn)
+		//req.Header.Set("apiKey", a.APIKey)
+		_, code = a.Proxy.Do(req, &rtn)
 	}
-	return rtn
+	return rtn, code
 }
 
 // GetAllowedURIList get GetAllowedURIList list
-func (a *Oauth2Service) GetAllowedURIList(clientID string) *[]AllowedURI {
+func (a *Oauth2Service) GetAllowedURIList(clientID string) (*[]AllowedURI, int) {
 	var rtn = make([]AllowedURI, 0)
+	var code int
 	var gURL = a.Host + "/rs/clientAllowedUri/list/" + clientID
 	req, rErr := http.NewRequest("GET", gURL, nil)
 	a.Log.Debug("get allowed uri list req: ", rErr)
 	if rErr == nil {
 		req.Header.Set("clientId", a.ClientID)
 		req.Header.Set("Authorization", "Bearer "+a.Token)
-		req.Header.Set("apiKey", a.APIKey)
-		a.Proxy.Do(req, &rtn)
+		//req.Header.Set("apiKey", a.APIKey)
+		_, code = a.Proxy.Do(req, &rtn)
 	}
-	return &rtn
+	return &rtn, code
 }
 
 // DeleteAllowedURI delete DeleteAllowedURI
@@ -133,7 +135,7 @@ func (a *Oauth2Service) DeleteAllowedURI(id string) *AllowedURIResponse {
 		req.Header.Set("Content-Type", "application/json")
 		req.Header.Set("Authorization", "Bearer "+a.Token)
 		req.Header.Set("clientId", a.ClientID)
-		req.Header.Set("apiKey", a.APIKey)
+		//req.Header.Set("apiKey", a.APIKey)
 		_, code := a.Proxy.Do(req, &rtn)
 		rtn.Code = code
 	}

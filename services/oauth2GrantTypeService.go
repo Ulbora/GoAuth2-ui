@@ -64,7 +64,7 @@ func (g *Oauth2Service) AddGrantType(rd *GrantType) *GrantTypeResponse {
 			req.Header.Set("Content-Type", "application/json")
 			req.Header.Set("Authorization", "Bearer "+g.Token)
 			req.Header.Set("clientId", g.ClientID)
-			req.Header.Set("apiKey", g.APIKey)
+			//req.Header.Set("apiKey", g.APIKey)
 			_, code := g.Proxy.Do(req, &rtn)
 			rtn.Code = code
 		}
@@ -73,18 +73,19 @@ func (g *Oauth2Service) AddGrantType(rd *GrantType) *GrantTypeResponse {
 }
 
 // GetGrantTypeList get GetGrantTypeList list
-func (g *Oauth2Service) GetGrantTypeList(clientID string) *[]GrantType {
+func (g *Oauth2Service) GetGrantTypeList(clientID string) (*[]GrantType, int) {
 	var rtn = make([]GrantType, 0)
+	var code int
 	var gURL = g.Host + "/rs/clientGrantType/list/" + clientID
 	req, rErr := http.NewRequest("GET", gURL, nil)
 	g.Log.Debug("get grant type list req: ", rErr)
 	if rErr == nil {
 		req.Header.Set("clientId", g.ClientID)
 		req.Header.Set("Authorization", "Bearer "+g.Token)
-		req.Header.Set("apiKey", g.APIKey)
-		g.Proxy.Do(req, &rtn)
+		//req.Header.Set("apiKey", g.APIKey)
+		_, code = g.Proxy.Do(req, &rtn)
 	}
-	return &rtn
+	return &rtn, code
 }
 
 // DeleteGrantType delete DeleteGrantType
@@ -97,7 +98,7 @@ func (g *Oauth2Service) DeleteGrantType(id string) *GrantTypeResponse {
 		req.Header.Set("Content-Type", "application/json")
 		req.Header.Set("Authorization", "Bearer "+g.Token)
 		req.Header.Set("clientId", g.ClientID)
-		req.Header.Set("apiKey", g.APIKey)
+		//req.Header.Set("apiKey", g.APIKey)
 		_, code := g.Proxy.Do(req, &rtn)
 		rtn.Code = code
 	}

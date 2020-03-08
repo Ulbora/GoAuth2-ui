@@ -28,15 +28,15 @@ import (
 
 */
 
-//ClientService service
-type ClientService struct {
-	Token    string
-	ClientID string
-	APIKey   string
-	UserID   string
-	Hashed   string
-	Host     string
-}
+// //ClientService service
+// type ClientService struct {
+// 	Token    string
+// 	ClientID string
+// 	APIKey   string
+// 	UserID   string
+// 	Hashed   string
+// 	Host     string
+// }
 
 //Client client
 type Client struct {
@@ -70,7 +70,7 @@ func (c *Oauth2Service) AddClient(client *Client) *ClientResponse {
 			req.Header.Set("Content-Type", "application/json")
 			req.Header.Set("Authorization", "Bearer "+c.Token)
 			req.Header.Set("clientId", c.ClientID)
-			req.Header.Set("apiKey", c.APIKey)
+			//req.Header.Set("apiKey", c.APIKey)
 			fmt.Println("c.Proxy: ", c.Proxy)
 			_, code := c.Proxy.Do(req, &rtn)
 			rtn.Code = code
@@ -94,7 +94,7 @@ func (c *Oauth2Service) UpdateClient(client *Client) *ClientResponse {
 			req.Header.Set("Content-Type", "application/json")
 			req.Header.Set("Authorization", "Bearer "+c.Token)
 			req.Header.Set("clientId", c.ClientID)
-			req.Header.Set("apiKey", c.APIKey)
+			//req.Header.Set("apiKey", c.APIKey)
 			_, code := c.Proxy.Do(req, &rtn)
 			rtn.Code = code
 		}
@@ -103,8 +103,9 @@ func (c *Oauth2Service) UpdateClient(client *Client) *ClientResponse {
 }
 
 // GetClient get GetClient
-func (c *Oauth2Service) GetClient(clientID string) *Client {
+func (c *Oauth2Service) GetClient(clientID string) (*Client, int) {
 	var rtn = new(Client)
+	var code int
 	var gURL = c.Host + "/rs/client/get/" + clientID
 	//fmt.Println(gURL)
 	req, rErr := http.NewRequest("GET", gURL, nil)
@@ -112,15 +113,16 @@ func (c *Oauth2Service) GetClient(clientID string) *Client {
 	if rErr == nil {
 		req.Header.Set("clientId", c.ClientID)
 		req.Header.Set("Authorization", "Bearer "+c.Token)
-		req.Header.Set("apiKey", c.APIKey)
-		c.Proxy.Do(req, &rtn)
+		//req.Header.Set("apiKey", c.APIKey)
+		_, code = c.Proxy.Do(req, &rtn)
 	}
-	return rtn
+	return rtn, code
 }
 
 // GetClientList get client list
-func (c *Oauth2Service) GetClientList() *[]Client {
+func (c *Oauth2Service) GetClientList() (*[]Client, int) {
 	var rtn = make([]Client, 0)
+	var code int
 	var gURL = c.Host + "/rs/client/list"
 	//fmt.Println(gURL)
 	req, rErr := http.NewRequest("GET", gURL, nil)
@@ -128,15 +130,16 @@ func (c *Oauth2Service) GetClientList() *[]Client {
 	if rErr == nil {
 		req.Header.Set("clientId", c.ClientID)
 		req.Header.Set("Authorization", "Bearer "+c.Token)
-		req.Header.Set("apiKey", c.APIKey)
-		c.Proxy.Do(req, &rtn)
+		//req.Header.Set("apiKey", c.APIKey)
+		_, code = c.Proxy.Do(req, &rtn)
 	}
-	return &rtn
+	return &rtn, code
 }
 
 //SearchClient SearchClient
-func (c *Oauth2Service) SearchClient(client *Client) *[]Client {
+func (c *Oauth2Service) SearchClient(client *Client) (*[]Client, int) {
 	var rtn = make([]Client, 0)
+	var code int
 	var addURL = c.Host + "/rs/client/search"
 	aJSON, err := json.Marshal(client)
 	c.Log.Debug("search client: ", err)
@@ -147,11 +150,11 @@ func (c *Oauth2Service) SearchClient(client *Client) *[]Client {
 			reqcs.Header.Set("Content-Type", "application/json")
 			reqcs.Header.Set("Authorization", "Bearer "+c.Token)
 			reqcs.Header.Set("clientId", c.ClientID)
-			reqcs.Header.Set("apiKey", c.APIKey)
-			c.Proxy.Do(reqcs, &rtn)
+			//reqcs.Header.Set("apiKey", c.APIKey)
+			_, code = c.Proxy.Do(reqcs, &rtn)
 		}
 	}
-	return &rtn
+	return &rtn, code
 }
 
 // DeleteClient delete DeleteClient
@@ -165,7 +168,7 @@ func (c *Oauth2Service) DeleteClient(id string) *ClientResponse {
 		req.Header.Set("Content-Type", "application/json")
 		req.Header.Set("Authorization", "Bearer "+c.Token)
 		req.Header.Set("clientId", c.ClientID)
-		req.Header.Set("apiKey", c.APIKey)
+		//req.Header.Set("apiKey", c.APIKey)
 		_, code := c.Proxy.Do(req, &rtn)
 		rtn.Code = code
 	}

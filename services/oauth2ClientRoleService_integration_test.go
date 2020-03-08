@@ -97,7 +97,7 @@ func TestClientRoleServicei_GetClientRoleList(t *testing.T) {
 	c.ClientID = "10"
 	c.Host = "http://localhost:3000"
 	c.Token = tempToken
-	res := c.GetClientRoleList(strconv.FormatInt(CID4i, 10))
+	res, _ := c.GetClientRoleList(strconv.FormatInt(CID4i, 10))
 	fmt.Print("client role res list: ")
 	fmt.Println(res)
 	fmt.Print("len: ")

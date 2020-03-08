@@ -169,12 +169,12 @@ func TestRoleURIService_GetRoleURIList(t *testing.T) {
 	c.ClientID = "10"
 	c.Host = "http://localhost:3000"
 	c.Token = tempToken
-	res := c.GetRoleURIList(strconv.FormatInt(rID2, 10))
+	res, code := c.GetRoleURIList(strconv.FormatInt(rID2, 10))
 	fmt.Print("roleuri res list: ")
 	fmt.Println(res)
 	fmt.Print("len: ")
 	fmt.Println(len(*res))
-	if res == nil || len(*res) != 1 {
+	if res == nil || len(*res) != 1 || code != 200 {
 		t.Fail()
 	}
 }

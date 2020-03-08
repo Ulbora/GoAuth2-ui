@@ -65,7 +65,7 @@ func (r *Oauth2Service) AddRedirectURI(rd *RedirectURI) *RedirectURIResponse {
 			reqr.Header.Set("Content-Type", "application/json")
 			reqr.Header.Set("Authorization", "Bearer "+r.Token)
 			reqr.Header.Set("clientId", r.ClientID)
-			reqr.Header.Set("apiKey", r.APIKey)
+			//reqr.Header.Set("apiKey", r.APIKey)
 			_, code := r.Proxy.Do(reqr, &rtn)
 			rtn.Code = code
 		}
@@ -74,18 +74,19 @@ func (r *Oauth2Service) AddRedirectURI(rd *RedirectURI) *RedirectURIResponse {
 }
 
 // GetRedirectURIList get GetRedirectURIList list
-func (r *Oauth2Service) GetRedirectURIList(clientID string) *[]RedirectURI {
+func (r *Oauth2Service) GetRedirectURIList(clientID string) (*[]RedirectURI, int) {
 	var rtn = make([]RedirectURI, 0)
+	var code int
 	var gURL = r.Host + "/rs/clientRedirectUri/list/" + clientID
 	reqrg, rErr := http.NewRequest("GET", gURL, nil)
 	r.Log.Debug("Get redirect req: ", rErr)
 	if rErr == nil {
 		reqrg.Header.Set("clientId", r.ClientID)
 		reqrg.Header.Set("Authorization", "Bearer "+r.Token)
-		reqrg.Header.Set("apiKey", r.APIKey)
-		r.Proxy.Do(reqrg, &rtn)
+		//reqrg.Header.Set("apiKey", r.APIKey)
+		_, code = r.Proxy.Do(reqrg, &rtn)
 	}
-	return &rtn
+	return &rtn, code
 }
 
 // DeleteRedirectURI delete DeleteRedirectURI
@@ -98,7 +99,7 @@ func (r *Oauth2Service) DeleteRedirectURI(id string) *RedirectURIResponse {
 		reqrd.Header.Set("Content-Type", "application/json")
 		reqrd.Header.Set("Authorization", "Bearer "+r.Token)
 		reqrd.Header.Set("clientId", r.ClientID)
-		reqrd.Header.Set("apiKey", r.APIKey)
+		//reqrd.Header.Set("apiKey", r.APIKey)
 		_, code := r.Proxy.Do(reqrd, &rtn)
 		rtn.Code = code
 	}

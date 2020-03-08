@@ -113,13 +113,13 @@ func TestGrantTypeService_GetGrantTypeList(t *testing.T) {
 	c.ClientID = "10"
 	c.Host = "http://localhost:3000"
 	c.Token = tempToken
-	res := c.GetGrantTypeList(strconv.FormatInt(CID3, 10))
+	res, code := c.GetGrantTypeList(strconv.FormatInt(CID3, 10))
 	fmt.Print("grant type res list: ")
 	fmt.Println(res)
 	fmt.Print("len: ")
 	fmt.Println(len(*res))
 
-	if res == nil || len(*res) != 1 || (*res)[0].GrantType != "code" {
+	if res == nil || len(*res) != 1 || (*res)[0].GrantType != "code" || code != 200 {
 		t.Fail()
 	}
 }

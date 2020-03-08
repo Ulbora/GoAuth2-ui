@@ -115,10 +115,10 @@ func TestClientService_GetClient(t *testing.T) {
 	fmt.Print("CID: ")
 	fmt.Println(CID)
 	s := c.GetNew()
-	res := s.GetClient(strconv.FormatInt(CID, 10))
+	res, code := s.GetClient(strconv.FormatInt(CID, 10))
 	fmt.Print("res mocked: ")
 	fmt.Println(res)
-	if res.Enabled != true {
+	if res.Enabled != true || code != 200 {
 		t.Fail()
 	}
 }
@@ -140,11 +140,11 @@ func TestClientService_SearchClient(t *testing.T) {
 	var cc Client
 	cc.Name = "Big"
 	s := c.GetNew()
-	res := s.SearchClient(&cc)
+	res, code := s.SearchClient(&cc)
 	fmt.Print("searched res: ")
 	fmt.Println(res)
 	fmt.Println("res len: ", len(*res))
-	if res == nil || len(*res) == 0 {
+	if res == nil || len(*res) == 0 || code != 200 {
 		t.Fail()
 	}
 }
@@ -164,12 +164,13 @@ func TestClientService_GetClientList(t *testing.T) {
 	c.Host = "http://localhost:3000"
 	c.Token = tempToken
 	s := c.GetNew()
-	res := s.GetClientList()
+	res, code := s.GetClientList()
 	fmt.Print("res list: ")
 	fmt.Println(res)
 	fmt.Print("len: ")
 	fmt.Println(len(*res))
-	if res == nil || len(*res) == 0 {
+	fmt.Println("code in getClientList: ", code)
+	if res == nil || len(*res) == 0 || code != 200 {
 		t.Fail()
 	}
 }

@@ -96,7 +96,7 @@ func TestClientService_GetClienti(t *testing.T) {
 	c.Token = tempToken
 	fmt.Print("CID: ")
 	fmt.Println(CID1)
-	res := c.GetClient(strconv.FormatInt(CID1, 10))
+	res, _ := c.GetClient(strconv.FormatInt(CID1, 10))
 	fmt.Print("res: ")
 	fmt.Println(res)
 	if res.Enabled != true {
@@ -115,7 +115,7 @@ func TestClientService_SearchClienti(t *testing.T) {
 	c.Token = tempToken
 	var cc Client
 	cc.Name = "Big"
-	res := c.SearchClient(&cc)
+	res, _ := c.SearchClient(&cc)
 	fmt.Print("searched res: ")
 	fmt.Println(res)
 	if res == nil || len(*res) == 0 {
@@ -132,7 +132,7 @@ func TestClientService_GetClientListi(t *testing.T) {
 	c.ClientID = "10"
 	c.Host = "http://localhost:3000"
 	c.Token = tempToken
-	res := c.GetClientList()
+	res, _ := c.GetClientList()
 	fmt.Print("res list: ")
 	fmt.Println(res)
 	fmt.Print("len: ")

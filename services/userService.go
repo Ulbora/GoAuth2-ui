@@ -32,10 +32,10 @@ import (
 type UserService struct {
 	Token    string
 	ClientID string
-	APIKey   string
-	UserID   string
-	Hashed   string
-	Host     string
+	//APIKey   string
+	UserID string
+	Hashed string
+	Host   string
 }
 
 //User user
@@ -120,7 +120,7 @@ func (u *Oauth2Service) AddUser(user *User) *UserResponse {
 			req.Header.Set("Content-Type", "application/json")
 			req.Header.Set("Authorization", "Bearer "+u.Token)
 			req.Header.Set("clientId", u.ClientID)
-			req.Header.Set("apiKey", u.APIKey)
+			//req.Header.Set("apiKey", u.APIKey)
 			_, code := u.Proxy.Do(req, &rtn)
 			rtn.Code = code
 		}
@@ -141,7 +141,7 @@ func (u *Oauth2Service) UpdateUser(user UpdateUser) *UserResponse {
 			req.Header.Set("Content-Type", "application/json")
 			req.Header.Set("Authorization", "Bearer "+u.Token)
 			req.Header.Set("clientId", u.ClientID)
-			req.Header.Set("apiKey", u.APIKey)
+			//req.Header.Set("apiKey", u.APIKey)
 			_, code := u.Proxy.Do(req, &rtn)
 			rtn.Code = code
 		}
@@ -150,38 +150,41 @@ func (u *Oauth2Service) UpdateUser(user UpdateUser) *UserResponse {
 }
 
 // GetUser get
-func (u *Oauth2Service) GetUser(username string, clientID string) *User {
+func (u *Oauth2Service) GetUser(username string, clientID string) (*User, int) {
 	var rtn = new(User)
+	var code int
 	var gURL = u.Host + "/rs/user/get/" + username + "/" + clientID
 	req, rErr := http.NewRequest("GET", gURL, nil)
 	u.Log.Debug("get user req: ", rErr)
 	if rErr == nil {
 		req.Header.Set("clientId", u.ClientID)
 		req.Header.Set("Authorization", "Bearer "+u.Token)
-		req.Header.Set("apiKey", u.APIKey)
-		u.Proxy.Do(req, &rtn)
+		//req.Header.Set("apiKey", u.APIKey)
+		_, code = u.Proxy.Do(req, &rtn)
 	}
-	return rtn
+	return rtn, code
 }
 
 // GetUserList get user list
-func (u *Oauth2Service) GetUserList() *[]User {
+func (u *Oauth2Service) GetUserList() (*[]User, int) {
 	var rtn = make([]User, 0)
+	var code int
 	var gURL = u.Host + "/rs/user/list"
 	req, rErr := http.NewRequest("GET", gURL, nil)
 	u.Log.Debug("get user list req: ", rErr)
 	if rErr == nil {
 		req.Header.Set("clientId", u.ClientID)
 		req.Header.Set("Authorization", "Bearer "+u.Token)
-		req.Header.Set("apiKey", u.APIKey)
-		u.Proxy.Do(req, &rtn)
+		//req.Header.Set("apiKey", u.APIKey)
+		_, code = u.Proxy.Do(req, &rtn)
 	}
-	return &rtn
+	return &rtn, code
 }
 
 // SearchUserList search by client
-func (u *Oauth2Service) SearchUserList(clientID string) *[]User {
+func (u *Oauth2Service) SearchUserList(clientID string) (*[]User, int) {
 	var rtn = make([]User, 0)
+	var code int
 	var gURL = u.Host + "/rs/user/search/" + clientID
 	fmt.Println(gURL)
 	req, rErr := http.NewRequest("GET", gURL, nil)
@@ -189,10 +192,10 @@ func (u *Oauth2Service) SearchUserList(clientID string) *[]User {
 	if rErr == nil {
 		req.Header.Set("clientId", u.ClientID)
 		req.Header.Set("Authorization", "Bearer "+u.Token)
-		req.Header.Set("apiKey", u.APIKey)
-		u.Proxy.Do(req, &rtn)
+		//req.Header.Set("apiKey", u.APIKey)
+		_, code = u.Proxy.Do(req, &rtn)
 	}
-	return &rtn
+	return &rtn, code
 }
 
 // DeleteUser delete
@@ -205,7 +208,7 @@ func (u *Oauth2Service) DeleteUser(username string, clientID string) *UserRespon
 		req.Header.Set("Content-Type", "application/json")
 		req.Header.Set("Authorization", "Bearer "+u.Token)
 		req.Header.Set("clientId", u.ClientID)
-		req.Header.Set("apiKey", u.APIKey)
+		//req.Header.Set("apiKey", u.APIKey)
 		_, code := u.Proxy.Do(req, &rtn)
 		rtn.Code = code
 	}
@@ -213,16 +216,17 @@ func (u *Oauth2Service) DeleteUser(username string, clientID string) *UserRespon
 }
 
 // GetRoleList get role list
-func (u *Oauth2Service) GetRoleList() *[]Role {
+func (u *Oauth2Service) GetRoleList() (*[]Role, int) {
 	var rtn = make([]Role, 0)
+	var code int
 	var gURL = u.Host + "/rs/role/list"
 	req, rErr := http.NewRequest("GET", gURL, nil)
 	u.Log.Debug("get role list req: ", rErr)
 	if rErr == nil {
 		req.Header.Set("clientId", u.ClientID)
 		req.Header.Set("Authorization", "Bearer "+u.Token)
-		req.Header.Set("apiKey", u.APIKey)
-		u.Proxy.Do(req, &rtn)
+		//req.Header.Set("apiKey", u.APIKey)
+		_, code = u.Proxy.Do(req, &rtn)
 	}
-	return &rtn
+	return &rtn, code
 }

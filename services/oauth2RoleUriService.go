@@ -62,7 +62,7 @@ func (r *Oauth2Service) AddRoleURI(ru *RoleURI) *RoleURIResponse {
 			requr.Header.Set("Content-Type", "application/json")
 			requr.Header.Set("Authorization", "Bearer "+r.Token)
 			requr.Header.Set("clientId", r.ClientID)
-			requr.Header.Set("apiKey", r.APIKey)
+			//requr.Header.Set("apiKey", r.APIKey)
 			_, code := r.Proxy.Do(requr, &rtn)
 			rtn.Code = code
 		}
@@ -71,18 +71,19 @@ func (r *Oauth2Service) AddRoleURI(ru *RoleURI) *RoleURIResponse {
 }
 
 // GetRoleURIList get GetRoleURIList list
-func (r *Oauth2Service) GetRoleURIList(uID string) *[]RoleURI {
+func (r *Oauth2Service) GetRoleURIList(uID string) (*[]RoleURI, int) {
 	var rtn = make([]RoleURI, 0)
+	var code int
 	var gURL = r.Host + "/rs/clientRoleUri/list/" + uID
 	requrl, rErr := http.NewRequest("GET", gURL, nil)
 	r.Log.Debug("get role uri list req: ", rErr)
 	if rErr == nil {
 		requrl.Header.Set("clientId", r.ClientID)
 		requrl.Header.Set("Authorization", "Bearer "+r.Token)
-		requrl.Header.Set("apiKey", r.APIKey)
-		r.Proxy.Do(requrl, &rtn)
+		//requrl.Header.Set("apiKey", r.APIKey)
+		_, code = r.Proxy.Do(requrl, &rtn)
 	}
-	return &rtn
+	return &rtn, code
 }
 
 //DeleteRoleURI add
@@ -98,7 +99,7 @@ func (r *Oauth2Service) DeleteRoleURI(ru *RoleURI) *RoleURIResponse {
 			requrd.Header.Set("Content-Type", "application/json")
 			requrd.Header.Set("Authorization", "Bearer "+r.Token)
 			requrd.Header.Set("clientId", r.ClientID)
-			requrd.Header.Set("apiKey", r.APIKey)
+			//requrd.Header.Set("apiKey", r.APIKey)
 			_, code := r.Proxy.Do(requrd, &rtn)
 			rtn.Code = code
 		}

@@ -119,7 +119,7 @@ func TestAllowedURIServicei_GetAllowedURI(t *testing.T) {
 	c.ClientID = "10"
 	c.Host = "http://localhost:3000"
 	c.Token = tempToken
-	res := c.GetAllowedURI(strconv.FormatInt(aIDi, 10))
+	res, _ := c.GetAllowedURI(strconv.FormatInt(aIDi, 10))
 	fmt.Print("get uri res: ")
 	fmt.Println(res)
 	if res.URI != "/rs/mail/get" {
@@ -137,7 +137,7 @@ func TestAllowedURIServicei_GetAllowedURIList(t *testing.T) {
 	c.ClientID = "10"
 	c.Host = "http://localhost:3000"
 	c.Token = tempToken
-	res := c.GetAllowedURIList(strconv.FormatInt(CID6i, 10))
+	res, _ := c.GetAllowedURIList(strconv.FormatInt(CID6i, 10))
 	fmt.Print("uri res list: ")
 	fmt.Println(res)
 	fmt.Print("len: ")

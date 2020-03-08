@@ -200,10 +200,10 @@ func TestUserService_GetUser(t *testing.T) {
 	c.Host = "http://localhost:3001"
 	c.Token = tempToken
 
-	res := c.GetUser(UID, CLID)
+	res, code := c.GetUser(UID, CLID)
 	fmt.Print("res: ")
 	fmt.Println(res)
-	if res.Username != UID || res.Enabled == false {
+	if res.Username != UID || res.Enabled == false || code != 200 {
 		t.Fail()
 	}
 }
@@ -224,10 +224,10 @@ func TestUserService_GetUserList(t *testing.T) {
 	c.Host = "http://localhost:3001"
 	c.Token = tempToken
 
-	res := c.GetUserList()
+	res, code := c.GetUserList()
 	fmt.Print("res: ")
 	fmt.Println(res)
-	if len(*res) == 0 {
+	if len(*res) == 0 || code != 200 {
 		t.Fail()
 	}
 }
@@ -248,10 +248,10 @@ func TestUserService_SearchUserList(t *testing.T) {
 	c.Host = "http://localhost:3001"
 	c.Token = tempToken
 
-	res := c.SearchUserList(CLID)
+	res, code := c.SearchUserList(CLID)
 	fmt.Print("res: ")
 	fmt.Println(res)
-	if len(*res) == 0 {
+	if len(*res) == 0 || code != 200 {
 		t.Fail()
 	}
 }
@@ -296,10 +296,10 @@ func TestUserService_GetRoleList(t *testing.T) {
 	c.Host = "http://localhost:3001"
 	c.Token = tempToken
 
-	res := c.GetRoleList()
+	res, code := c.GetRoleList()
 	fmt.Print("role res: ")
 	fmt.Println(res)
-	if len(*res) == 0 {
+	if len(*res) == 0 || code != 200 {
 		t.Fail()
 	}
 }
