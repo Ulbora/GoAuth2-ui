@@ -72,7 +72,7 @@ type MockOauth2Service struct {
 	MockUserList     *[]User
 	MockUserListCode int
 	MockRoleList     *[]Role
-	MockRoleCode     int
+	MockRoleListCode int
 }
 
 //GetNew GetNew
@@ -234,5 +234,5 @@ func (s *MockOauth2Service) DeleteUser(username string, clientID string) *UserRe
 
 //GetRoleList GetRoleList
 func (s *MockOauth2Service) GetRoleList() (*[]Role, int) {
-	return s.MockRoleList, s.MockRoleCode
+	return s.MockRoleList, s.MockRoleListCode
 }

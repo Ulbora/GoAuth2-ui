@@ -445,7 +445,7 @@ func TestMockOauth2Service_GetRoleList(t *testing.T) {
 	var cl []Role
 	cl = append(cl, c)
 	os.MockRoleList = &cl
-	os.MockRoleCode = 200
+	os.MockRoleListCode = 200
 	s := os.GetNew()
 	res, code := s.GetRoleList()
 	if len(*res) != 1 || code != 200 {
