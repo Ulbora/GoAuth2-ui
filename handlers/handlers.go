@@ -55,9 +55,9 @@ type Handler interface {
 	// HandleRedirectURLAdd(w http.ResponseWriter, r *http.Request)
 	// HandleRedirectURLDelete(w http.ResponseWriter, r *http.Request)
 
-	// HandleRoles(w http.ResponseWriter, r *http.Request)
-	// HandleRoleAdd(w http.ResponseWriter, r *http.Request)
-	// HandleRoleDelete(w http.ResponseWriter, r *http.Request)
+	HandleRoles(w http.ResponseWriter, r *http.Request)
+	HandleRoleAdd(w http.ResponseWriter, r *http.Request)
+	HandleRoleDelete(w http.ResponseWriter, r *http.Request)
 
 	// HandleUsers(w http.ResponseWriter, r *http.Request)
 	// HandleNewUser(w http.ResponseWriter, r *http.Request)
