@@ -54,8 +54,8 @@ func (h *OauthHandler) HandleUsers(w http.ResponseWriter, r *http.Request) {
 		} else {
 
 			s.Values["userLoggenIn"] = true
-			vars := mux.Vars(r)
-			clientID := vars["clientId"]
+			usvars := mux.Vars(r)
+			clientID := usvars["clientId"]
 			h.Log.Debug("users client: ", clientID)
 
 			if clientID != "" {
