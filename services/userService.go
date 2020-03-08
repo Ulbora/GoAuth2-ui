@@ -28,16 +28,6 @@ import (
 
 */
 
-//UserService service
-type UserService struct {
-	Token    string
-	ClientID string
-	//APIKey   string
-	UserID string
-	Hashed string
-	Host   string
-}
-
 //User user
 type User struct {
 	Username     string `json:"username"`

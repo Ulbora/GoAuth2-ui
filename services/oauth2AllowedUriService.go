@@ -27,16 +27,6 @@ import (
 
 */
 
-// //AllowedURIService service
-// type AllowedURIService struct {
-// 	Token    string
-// 	ClientID string
-// 	APIKey   string
-// 	UserID   string
-// 	Hashed   string
-// 	Host     string
-// }
-
 //AllowedURI AllowedURI
 type AllowedURI struct {
 	ID       int64  `json:"id"`

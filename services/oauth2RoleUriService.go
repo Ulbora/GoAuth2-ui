@@ -27,16 +27,6 @@ import (
 
 */
 
-//RoleURIService service
-type RoleURIService struct {
-	Token    string
-	ClientID string
-	APIKey   string
-	UserID   string
-	Hashed   string
-	Host     string
-}
-
 //RoleURI RoleURI
 type RoleURI struct {
 	ClientRoleID       int64 `json:"clientRoleId"`

@@ -27,16 +27,6 @@ import (
 
 */
 
-//ClientRoleService ClientRoleService
-type ClientRoleService struct {
-	Token    string
-	ClientID string
-	APIKey   string
-	UserID   string
-	Hashed   string
-	Host     string
-}
-
 //ClientRole ClientRole
 type ClientRole struct {
 	ID       int64  `json:"id"`

@@ -28,16 +28,6 @@ import (
 
 */
 
-// //ClientService service
-// type ClientService struct {
-// 	Token    string
-// 	ClientID string
-// 	APIKey   string
-// 	UserID   string
-// 	Hashed   string
-// 	Host     string
-// }
-
 //Client client
 type Client struct {
 	ClientID     int64         `json:"clientId"`

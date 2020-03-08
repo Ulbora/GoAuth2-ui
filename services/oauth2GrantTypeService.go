@@ -27,16 +27,6 @@ import (
 
 */
 
-//GrantTypeService GrantTypeService
-type GrantTypeService struct {
-	Token    string
-	ClientID string
-	APIKey   string
-	UserID   string
-	Hashed   string
-	Host     string
-}
-
 //GrantType GrantType
 type GrantType struct {
 	ID        int64  `json:"id"`

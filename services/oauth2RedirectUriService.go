@@ -28,16 +28,6 @@ import (
 
 */
 
-//RedirectURIService RedirectURIService
-type RedirectURIService struct {
-	Token    string
-	ClientID string
-	APIKey   string
-	UserID   string
-	Hashed   string
-	Host     string
-}
-
 //RedirectURI RedirectURI
 type RedirectURI struct {
 	ID       int64  `json:"id"`
