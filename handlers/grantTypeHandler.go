@@ -41,8 +41,8 @@ func (h *OauthHandler) handleGrantType(w http.ResponseWriter, r *http.Request) {
 			h.authorize(w, r)
 		} else {
 			s.Values["userLoggenIn"] = true
-			vars := mux.Vars(r)
-			clientID := vars["clientId"]
+			gtvars := mux.Vars(r)
+			clientID := gtvars["clientId"]
 			h.Log.Debug("grant type clientid: ", clientID)
 			if clientID != "" {
 				h.Service.SetToken(h.token.AccessToken)
