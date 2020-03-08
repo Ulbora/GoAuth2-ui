@@ -30,98 +30,116 @@ import (
 
 */
 
-//HandleGrantType HandleGrantType
-func (h *OauthHandler) HandleGrantType(w http.ResponseWriter, r *http.Request) {
+//HandleRoles HandleRoles
+func (h *OauthHandler) HandleRoles(w http.ResponseWriter, r *http.Request) {
 	s, suc := h.getSession(r)
 	if suc {
 		loggedIn := s.Values["userLoggenIn"]
 		token := h.token
-		h.Log.Debug("grant type Logged in: ", loggedIn)
+		h.Log.Debug("roles Logged in: ", loggedIn)
 
 		if loggedIn == nil || loggedIn.(bool) == false || token == nil {
 			h.authorize(w, r)
 		} else {
 			s.Values["userLoggenIn"] = true
-			gtvars := mux.Vars(r)
-			clientID := gtvars["clientId"]
-			h.Log.Debug("grant type clientid: ", clientID)
+			rvars := mux.Vars(r)
+			clientID := rvars["clientId"]
+			h.Log.Debug("roles clientID: ", clientID)
 			if clientID != "" {
 				h.Service.SetToken(h.token.AccessToken)
+
 				res, _ := h.Service.GetClient(clientID)
-				h.Log.Debug("grant type client res: ", *res)
+				h.Log.Debug("roles client res: ", *res)
+
 				//fmt.Println(res)
 				var page oauthPage
 				page.OauthActive = "active"
 				page.Client = res
-				res2, _ := h.Service.GetGrantTypeList(clientID)
-				h.Log.Debug("grant type gt res: ", *res2)
-				page.GrantTypes = res2
+
+				res2, _ := h.Service.GetClientRoleList(clientID)
+				h.Log.Debug("roles client res2: ", *res2)
+				page.ClientRoles = res2
+				if h.ClientCreds.AuthCodeClient == clientID {
+					page.ClientIsSelf = true
+				}
 				var sm secSideMenu
-				sm.GrantTypeActive = "active teal"
+				sm.RolesActive = "active teal"
 				page.SecSideMenu = &sm
 
-				h.Templates.ExecuteTemplate(w, "grantTypes.html", &page)
+				h.Templates.ExecuteTemplate(w, "roles.html", &page)
 			}
 		}
 	}
 }
 
-//HandleGrantTypeAdd HandleGrantTypeAdd
-func (h *OauthHandler) HandleGrantTypeAdd(w http.ResponseWriter, r *http.Request) {
+//HandleRoleAdd HandleRoleAdd
+func (h *OauthHandler) HandleRoleAdd(w http.ResponseWriter, r *http.Request) {
 	s, suc := h.getSession(r)
 	if suc {
 		loggedIn := s.Values["userLoggenIn"]
 		token := h.token
-		h.Log.Debug("clients add Logged in: ", loggedIn)
+		h.Log.Debug("roles add Logged in: ", loggedIn)
+
 		if loggedIn == nil || loggedIn.(bool) == false || token == nil {
 			h.authorize(w, r)
 		} else {
-			grantType := r.FormValue("grantType")
-			h.Log.Debug("grant type add granttype: ", grantType)
+			clientRole := r.FormValue("clientRole")
+			h.Log.Debug("roles add clientrole: ", clientRole)
 
 			clientIDStr := r.FormValue("clientId")
 			clientID, _ := strconv.ParseInt(clientIDStr, 10, 0)
-			h.Log.Debug("grant type add clientid: ", clientID)
+			h.Log.Debug("roles add clientID: ", clientID)
 
 			s.Values["userLoggenIn"] = true
 
 			h.Service.SetToken(h.token.AccessToken)
 
-			if grantType != "" {
-				var gg services.GrantType
-				gg.ClientID = clientID
-				gg.GrantType = grantType
-				gres := h.Service.AddGrantType(&gg)
-				h.Log.Debug("grant type add granttype res: ", *gres)
+			resTest, _ := h.Service.GetClientRoleList(clientIDStr)
+			h.Log.Debug("roles add resTest: ", *resTest)
+			var roleExists = false
+			for _, rl := range *resTest {
+				if rl.Role == clientRole {
+					roleExists = true
+					break
+				}
 			}
-			http.Redirect(w, r, "/clientGrantTypes/"+clientIDStr, http.StatusFound)
+			h.Log.Debug("roles add roleExists: ", roleExists)
+			if clientRole != "" && roleExists != true {
+				var rr services.ClientRole
+				rr.ClientID = clientID
+				rr.Role = clientRole
+				rres := h.Service.AddClientRole(&rr)
+				h.Log.Debug("roles add rres: ", *rres)
+			}
+			http.Redirect(w, r, "/clientRoles/"+clientIDStr, http.StatusFound)
 		}
 	}
 }
 
-//HandleGrantTypeDelete HandleGrantTypeDelete
-func (h *OauthHandler) HandleGrantTypeDelete(w http.ResponseWriter, r *http.Request) {
+//HandleRoleDelete HandleRoleDelete
+func (h *OauthHandler) HandleRoleDelete(w http.ResponseWriter, r *http.Request) {
 	s, suc := h.getSession(r)
 	if suc {
 		loggedIn := s.Values["userLoggenIn"]
 		token := h.token
-		h.Log.Debug("grantType delete Logged in: ", loggedIn)
+		h.Log.Debug("roles delete Logged in: ", loggedIn)
 		if loggedIn == nil || loggedIn.(bool) == false || token == nil {
 			h.authorize(w, r)
 		} else {
 			s.Values["userLoggenIn"] = true
-			vars := mux.Vars(r)
-			ID := vars["id"]
-			clientID := vars["clientId"]
-
-			h.Log.Debug("grantType delete id: ", ID)
+			rdvars := mux.Vars(r)
+			ID := rdvars["id"]
+			clientID := rdvars["clientId"]
+			h.Log.Debug("roles delete id: ", ID)
+			h.Log.Debug("roles delete clientID: ", clientID)
 
 			if ID != "" && clientID != "" {
 				h.Service.SetToken(h.token.AccessToken)
-				gres := h.Service.DeleteGrantType(ID)
-				h.Log.Debug("grantType delete res: ", *gres)
+
+				rres := h.Service.DeleteClientRole(ID)
+				h.Log.Debug("roles delete rres: ", *rres)
 			}
-			http.Redirect(w, r, "/clientGrantTypes/"+clientID, http.StatusFound)
+			http.Redirect(w, r, "/clientRoles/"+clientID, http.StatusFound)
 		}
 	}
 }

@@ -45,9 +45,9 @@ type Handler interface {
 	HandleAllowedUrisUpdate(w http.ResponseWriter, r *http.Request)
 	HandleAllowedUrisDelete(w http.ResponseWriter, r *http.Request)
 
-	// HandleGrantType(w http.ResponseWriter, r *http.Request)
-	// HandleGrantTypeAdd(w http.ResponseWriter, r *http.Request)
-	// HandleGrantTypeDelete(w http.ResponseWriter, r *http.Request)
+	HandleGrantType(w http.ResponseWriter, r *http.Request)
+	HandleGrantTypeAdd(w http.ResponseWriter, r *http.Request)
+	HandleGrantTypeDelete(w http.ResponseWriter, r *http.Request)
 
 	HandleOauth2(w http.ResponseWriter, r *http.Request)
 
