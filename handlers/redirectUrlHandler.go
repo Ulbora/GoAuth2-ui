@@ -42,8 +42,8 @@ func (h *OauthHandler) HandleRedirectURLs(w http.ResponseWriter, r *http.Request
 			h.authorize(w, r)
 		} else {
 			s.Values["userLoggenIn"] = true
-			vars := mux.Vars(r)
-			clientID := vars["clientId"]
+			ruvars := mux.Vars(r)
+			clientID := ruvars["clientId"]
 			h.Log.Debug("redirect url client: ", clientID)
 
 			if clientID != "" {
@@ -114,9 +114,9 @@ func (h *OauthHandler) HandleRedirectURLDelete(w http.ResponseWriter, r *http.Re
 			h.authorize(w, r)
 		} else {
 			s.Values["userLoggenIn"] = true
-			vars := mux.Vars(r)
-			ID := vars["id"]
-			clientID := vars["clientId"]
+			rudvars := mux.Vars(r)
+			ID := rudvars["id"]
+			clientID := rudvars["clientId"]
 
 			h.Log.Debug("redurect uri delete id: ", ID)
 			h.Log.Debug("redurect uri delete clientID: ", clientID)
