@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+{{template "header"}}
+
+<body>
+    {{template "navbar" .}} {{template "secSideMenu" .}}
+    <div class="client-edit-form">
+        <form class="ui form">
+            <h4 class="ui dividing header">Client Information</h4>
+            <div class="field">
+                <div class="two fields">
+                    <div class="field">
+                        <label>Name</label>
+                        <input type="text" value="{{.Client.Name}}" disabled>
+                    </div>
+                    <div class="field">
+                        <label>ClientID</label>
+                        <input type="text" value="{{.Client.ClientID}}" disabled>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="client-table">
+            <table class="ui selectable celled table">
+                <thead>
+                    <tr>
+                        <th>Grant Type</th>
+                        <th>Remove</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{range .GrantTypes}}
+                    <tr>
+                        {{if eq .GrantType "code"}}
+                        <td>Auth Code</td>
+                        {{else if eq .GrantType "implicit"}}
+                        <td>Implicit</td>
+                        {{else if eq .GrantType "client_credentials"}}
+                        <td>Client Credentials</td>
+                        {{else if eq .GrantType "password"}}
+                        <td>Password</td>
+                        {{end}}
+                        <td onclick="showGrantTypeModel({{.ID}},{{.GrantType}});">
+                            <i class="remove circle icon"></i>
+                        </td>
+                    </tr>
+                    {{end}}
+                </tbody>
+            </table>
+        </div>
+        <div class="add-inner-form">
+            <form method="POST" class="ui form" action="/addGrantType">
+                <h4 class="ui dividing header">Add Grant Type</h4>
+                <div class="field">
+                    <div class="field">
+                        <label>Grant Type</label>
+                        <select name="grantType" class="ui fluid dropdown">
+                            <option value="">----</option>
+                            <option value="code">Auth Code</option>
+                            <option value="implicit">Implicit</option>
+                            <option value="client_credentials">Client Credentials</option>
+                            <option value="password">Password</option>
+                        </select>
+                    </div>
+                </div>
+                <input type="hidden" name="clientId" value="{{.Client.ClientID}}">
+                <button class="ui button" type="submit">Add</button>
+            </form>
+        </div>
+    </div>
+    <div class="ui modal">
+        <i class="close icon"></i>
+        <div class="header">
+            Delete URL
+        </div>
+        <div class="content">
+            <p id="cont">Delete this URL?</p>
+
+        </div>
+        <div class="actions">
+            <div class="ui black cancel button">Cancel</div>
+            <div onclick="location.href='/deleteGrantType/' + getGrantTypeId() +'/'+ {{.Client.ClientID}};" class="ui negative button">Delete</div>
+        </div>
+    </div>
+</body>
+
+</html>

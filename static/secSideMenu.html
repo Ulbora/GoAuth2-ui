@@ -1,0 +1,33 @@
+{{define "secSideMenu"}}
+<div class="side-menu">
+    <div class="ui vertical menu">
+        <a class="item" href="/editClient/{{.Client.ClientID}}">
+            Client Info
+        </a>
+        <a class="{{.SecSideMenu.ClientActive}}  item" href="/oauth2/{{.Client.ClientID}}">
+            Security
+        </a>
+        <a class="{{.SecSideMenu.RedirectURLActive}} item" href="/clientRedirectUrls/{{.Client.ClientID}}">
+            -- Redirect URLs
+        </a>
+        <a class="{{.SecSideMenu.GrantTypeActive}} item" href="/clientGrantTypes/{{.Client.ClientID}}">
+            -- Grant Types
+        </a>
+        <a class="{{.SecSideMenu.RolesActive}} item" href="/clientRoles/{{.Client.ClientID}}">
+            -- Roles
+        </a>
+        <a class="{{.SecSideMenu.AllowedURIActive}} item" href="/clientAllowedUris/{{.Client.ClientID}}">
+            -- Allowed URLs
+        </a>
+        <a class="{{.SecSideMenu.UlboraURIsActive}} item" href="/ulboraUris/{{.Client.ClientID}}">
+            -- Ulbora URLs
+        </a>
+        <a class="{{.SecSideMenu.UsersActive}} item" href="/users/{{.Client.ClientID}}">
+            -- Users
+        </a>
+        <a class="item" href="/gateway/{{.Client.ClientID}}">
+            ApiGateway
+        </a>
+    </div>
+</div>
+{{end}}

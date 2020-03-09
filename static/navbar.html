@@ -1,0 +1,22 @@
+{{define "navbar"}}
+<div class="top-header">
+    <div class="ui inverted segment">
+        <div class="ui inverted secondary pointing menu">
+            <a class="{{.ClientActive}} item" href="/clients">
+                Clients
+            </a>
+            <div class="{{.OauthActive}} item">
+                Oauth2
+            </div>
+            <div class="{{.GwActive}} item">
+                Gateway
+            </div>
+            <div class="right menu">
+                <a class="ui item" href="/logout">
+                    Logout
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{{end}}

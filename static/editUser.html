@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+{{template "header"}}
+
+<body>
+    {{template "navbar" .}} {{template "secSideMenu" .}}
+    <div class="client-edit-form">
+        <form class="ui form">
+            <h4 class="ui dividing header">Client Information</h4>
+            <div class="field">
+                <div class="two fields">
+                    <div class="field">
+                        <label>Name</label>
+                        <input type="text" value="{{.Client.Name}}" disabled>
+                    </div>
+                    <div class="field">
+                        <label>ClientID</label>
+                        <input type="text" value="{{.Client.ClientID}}" disabled>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <br/>
+        <form class="ui form">
+            <h4 class="ui dividing header">User Information</h4>
+            <div class="field">
+                <div class="two fields">
+                    <div class="field">
+                        <label>Username</label>
+                        <input type="text" value="{{.User.Username}}" disabled>
+                    </div>
+                    <div class="field">
+                        <label>Name</label>
+                        <input type="text" value="{{.User.FirstName}} {{.User.LastName}}" disabled>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <div onclick="showEditUserInfoForm();">
+            <i class="big edit icon"></i> Edit User Info</div>
+        <div id="editUserInfoForm" class="add-inner-form" style="display:none;">
+            <form method="POST" class="ui form" action="/updateUserInfo">
+                <h4 class="ui dividing header">Add New User</h4>
+                <input type="hidden" name="clientId" value="{{.Client.ClientID}}">
+                <input type="hidden" name="username" value="{{.User.Username}}">
+                <div class="field">
+                    <label>Username</label>
+                    <input type="text" value="{{.User.Username}}" disabled>
+                </div>
+                <div class="field">
+                    <label>User Role</label>
+                    <select name="userRoleId" class="ui fluid dropdown">
+                        {{ $AssignedRole := .UserAssignedRole }} {{range .UserRoleList}} {{if eq $AssignedRole .ID }}
+                        <option value="{{.ID}}" selected>{{.Role}}</option>
+                        {{else}}
+                        <option value="{{.ID}}">{{.Role}}</option>
+                        {{end}} {{end}}
+                    </select>
+                </div>
+                <div class="field">
+                    <label>First Name</label>
+                    <input type="text" name="firstName" placeholder="First Name" value="{{.User.FirstName}}" required>
+                </div>
+                <div class="field">
+                    <label>Last Name</label>
+                    <input type="text" name="lastName" placeholder="Last Name" value="{{.User.LastName}}" required>
+                </div>
+                <div class="field">
+                    <label>Email Address</label>
+                    <input type="email" name="emailAddress" placeholder="someone@gmail.com" value="{{.User.EmailAddress}}" required>
+                </div>                
+                
+                <button class="ui button" type="submit">Submit</button>
+            </form>
+        </div>
+
+        <div onclick="showEditUserEnableForm();">
+            <i class="big edit icon"></i> Enable/Disable User</div>
+        <div id="editUserEnableForm" class="add-inner-form" style="display:none;">
+            <form method="POST" class="ui form" action="/updateUserEnable">
+                <h4 class="ui dividing header">Add New User</h4>
+                <input type="hidden" name="clientId" value="{{.Client.ClientID}}">
+                <input type="hidden" name="username" value="{{.User.Username}}">
+                <div class="field">
+                    <label>Username</label>
+                    <input type="text" placeholder="Username" value="{{.User.Username}}" disabled>
+                </div>
+                
+                <div class="grouped fields">
+                    <label for="enabled">User Enabled:</label>
+                    {{if .User.Enabled}}
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input type="radio" name="enabled" checked="" tabindex="0" class="hidden" value="yes">
+                            <label>Yes</label>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input type="radio" name="enabled" tabindex="0" class="hidden" value="no">
+                            <label>No</label>
+                        </div>
+                    </div>
+                    {{else}}
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input type="radio" name="enabled"  tabindex="0" class="hidden" value="yes">
+                            <label>Yes</label>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input type="radio" name="enabled" checked="" tabindex="0" class="hidden" value="no">
+                            <label>No</label>
+                        </div>
+                    </div>
+                    {{end}}
+                </div>
+                <button class="ui button" type="submit">Submit</button>
+            </form>
+        </div>
+
+        <div onclick="showEditUserPwForm();">
+            <i class="big edit icon"></i> User Password Change</div>
+        <div id="editUserPwForm" class="add-inner-form" style="display:none;">
+            <form method="POST" class="ui form" action="/updateUserPw">
+                <h4 class="ui dividing header">Add New User</h4>
+                <input type="hidden" name="clientId" value="{{.Client.ClientID}}">
+                <input type="hidden" name="username" value="{{.User.Username}}">
+                <div class="field">
+                    <label>Username</label>
+                    <input type="text" placeholder="Username" value="{{.User.Username}}" disabled>
+                </div>
+                
+                <div class="field">
+                    <label>New Password</label>
+                    <input type="password" name="password" required>
+                </div>
+                
+                <button class="ui button" type="submit">Submit</button>
+            </form>
+        </div>
+    </div>  
+    <br/>
+    <br/>  
+</body>
+
+</html>

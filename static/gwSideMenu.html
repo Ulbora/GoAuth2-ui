@@ -1,0 +1,25 @@
+{{define "gwSideMenu"}}
+<div class="side-menu">
+    <div class="ui vertical menu">
+        <a class="item" href="/editClient/{{.Client.ClientID}}">
+            Client Info
+        </a>
+        <a class="item" href="/oauth2/{{.Client.ClientID}}">
+            Security
+        </a>
+        <a class="{{.GwSideMenu.GWActive}} item" href="/gateway/{{.Client.ClientID}}">
+            ApiGateway
+        </a>
+        <a class="{{.GwSideMenu.GWClientActive}}  item" href="/gatewayClient/{{.Client.ClientID}}">
+            -- Gateway Client
+        </a>
+        <a class="{{.GwSideMenu.RouteActive}} item" href="/gatewayRoutes/{{.Client.ClientID}}">
+            -- Routes
+        </a>
+        <a class="{{.GwSideMenu.RouteURLsActive}} item" href="/gatewayRouteUrls/{{.Client.ClientID}}">
+            -- Route Mapping
+        </a>       
+       
+    </div>
+</div>
+{{end}}

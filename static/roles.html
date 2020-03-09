@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+{{template "header"}}
+
+<body>
+    {{template "navbar" .}}
+    {{template "secSideMenu" .}}
+    <div class="client-edit-form">
+        <form class="ui form">
+            <h4 class="ui dividing header">Client Information</h4>
+            <div class="field">
+                <div class="two fields">
+                    <div class="field">
+                        <label>Name</label>
+                        <input type="text" value="{{.Client.Name}}" disabled>
+                    </div>
+                    <div class="field">
+                        <label>ClientID</label>
+                        <input type="text" value="{{.Client.ClientID}}" disabled>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="client-table">
+            <table class="ui selectable celled table">
+                <thead>
+                    <tr>
+                        <th>Client Roles</th>
+                        <th>Remove</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{range .ClientRoles}}
+                    <tr>                        
+                        <td>{{.Role}}</td>  
+                        {{if ne $.ClientIsSelf true}}
+                        <td onclick="showRoleModel({{.ID}},{{.Role}});">
+                            <i class="remove circle icon"></i>
+                        </td>
+                        {{else}}
+                        <td>
+                           This is You
+                        </td>
+                        {{end}}
+                    </tr>
+                    {{end}}
+                </tbody>
+            </table>
+        </div>
+        <div class="add-inner-form">
+            <form method="POST" class="ui form" action="/addClientRole">
+                <h4 class="ui dividing header">Add Client Roles</h4>
+                <div class="field">
+                    <div class="field">
+                        <label>Role</label>
+                        <select name="clientRole" class="ui fluid dropdown">
+                            <option value="">----</option>
+                            <option value="superAdmin">Super Admin</option>
+                            <option value="admin">Admin</option>
+                            <option value="user">User</option>
+                        </select>
+                    </div>
+                </div>
+                <input type="hidden" name="clientId" value="{{.Client.ClientID}}">
+                <button class="ui button" type="submit">Add</button>
+            </form>
+        </div>
+    </div>
+    <div class="ui modal">
+        <i class="close icon"></i>
+        <div class="header">
+            Delete Role
+        </div>
+        <div class="content">
+            <p id="cont">Delete this Role?</p>
+
+        </div>
+        <div class="actions">
+            <div class="ui black cancel button">Cancel</div>
+            <div onclick="location.href='/deleteClientRoles/' + getRoleId() +'/'+ {{.Client.ClientID}};" class="ui negative button">Delete</div>
+        </div>
+    </div>
+</body>
+
+</html>

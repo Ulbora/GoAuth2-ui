@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+{{template "header"}}
+
+<body>
+    {{template "navbar" .}}
+    <div class="client-main">
+        <div class="add-button">
+            <form method="POST" class="ui form" action="/addClient">
+                <button class="ui blue button" type="submit">Add</button>
+            </form>
+        </div>
+        <div class="page-content">
+            <form method="POST" class="ui form" action="/clients">
+                <div class="field">
+                    <label>Client Name</label>
+                    <input type="text" name="clientName" placeholder="Client Name">
+                </div>
+                <button class="ui button" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+    <div class="client-table">           
+        <table class="ui selectable celled table">
+            <thead>
+                <tr>
+                    <th>Client ID</th>
+                    <th>Name</th>
+                    <th>Web Site</th>
+                    <th>Enabled</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{range .ClientList}}
+                <tr onclick="window.location.href='/editClient/{{.ClientID}}'">
+                    <td>{{.ClientID}}</td>
+                    <td>{{.Name}}</td>
+                    <td>{{.WebSite}}</td>
+                    {{if .Enabled}}
+                    <td class="positive">Enabled</td>
+                    {{else}}
+                    <td class="warning">Disabled</td>
+                    {{end}}
+                </tr>               
+                {{end}}
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>

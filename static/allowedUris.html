@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+{{template "header"}}
+
+<body>
+    {{template "navbar" .}}
+    {{template "secSideMenu" .}}
+    <div class="client-edit-form">
+        <form class="ui form">
+            <h4 class="ui dividing header">Client Information</h4>
+            <div class="field">
+                <div class="two fields">
+                    <div class="field">
+                        <label>Name</label>
+                        <input type="text" value="{{.Client.Name}}" disabled>
+                    </div>
+                    <div class="field">
+                        <label>ClientID</label>
+                        <input type="text" value="{{.Client.ClientID}}" disabled>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="add-inner-form">
+                <form method="POST" class="ui form" action="/addAllowedUri">
+                    <h4 class="ui dividing header">Add Allowed URI</h4>
+                    <div class="field">
+                        <label>Allowed URI</label>
+                        <input type="text" name="uri" placeholder="/rs/someuri/get" required>
+                    </div>
+                    <div class="field">
+                        <div class="field">
+                            <label>Role</label>
+                            <select name="roleId" class="ui fluid dropdown">
+                               {{range $.ClientRoles}}                            
+                                <option value="{{.ID}}">{{.Role}}</option>
+                               {{end}}
+                            </select>
+                        </div>
+                    </div>
+                    <input type="hidden" name="clientId" value="{{.Client.ClientID}}">
+                    <button class="ui button" type="submit">Add</button>
+                </form>
+            </div>
+        <div class="client-allowed-uri-table">
+            <table class="ui selectable celled table">
+                <thead>
+                    <tr>
+                        <th>Allowed URI</th>
+                        <th>Role</th>
+                        <th>Edit</th>
+                        <th>Remove</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{range .AllowedURIs}}
+                    <form method="POST" class="ui form" action="/editAllowedUri">
+                        <tr>
+                            <td>
+                                <input type="hidden" name="id" value="{{.ID}}">
+                                <input type="hidden" name="originalRoleId" value="{{.AssignedRole}}">
+                                <input id="{{.ID}}" style="width: 100%; height: 30px;" type="text" name="uri" value="{{.URI}}" disabled>
+                                <input type="hidden" name="clientId" value="{{$.Client.ClientID}}">
+                            </td>
+                            <td>
+                                <select name="roleId" class="ui fluid dropdown">
+                                    {{ $AssignedRole := .AssignedRole }} {{range $.ClientRoles}} {{if eq $AssignedRole .ID }}
+                                    <option value="{{.ID}}" selected>{{.Role}}</option>
+                                    {{else}}
+                                    <option value="{{.ID}}">{{.Role}}</option>
+                                    {{end}} {{end}}
+                                </select>
+                            </td>
+                            <td>
+                                <i onclick="unHideAllowedUri('{{.ID}}')" class="edit icon">></i>
+                            </td>
+                            <td>
+                                <i id="del{{.ID}}" onclick="showAllowedUriModel({{.ID}},{{.URI}}, {{.AssignedRole}});" class="remove circle icon"></i>
+                                <button id="sub{{.ID}}" class="ui button" style="display: none;" type="submit">Update</button>
+                            </td>
+                        </tr>
+                    </form>
+                    {{end}}
+                </tbody>
+            </table>
+        </div>
+        
+    </div>
+    <div class="ui modal">
+        <i class="close icon"></i>
+        <div class="header">
+            Delete URI
+        </div>
+        <div class="content">
+            <p id="cont">Delete this URI?</p>
+
+        </div>
+        <div class="actions">
+            <div class="ui black cancel button">Cancel</div>
+            <div onclick="location.href='/deleteAllowedUri/' + getAllowedUriId() +'/'+ getAllowedUriRoleId() + '/' + {{.Client.ClientID}};" class="ui negative button">Delete</div>
+        </div>
+    </div>
+</body>
+
+</html>

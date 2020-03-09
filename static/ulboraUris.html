@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+{{template "header"}}
+
+<body>
+    {{template "navbar" .}} {{template "secSideMenu" .}}
+    <div class="client-edit-form">
+        <form class="ui form">
+            <h4 class="ui dividing header">Client Information</h4>
+            <div class="field">
+                <div class="two fields">
+                    <div class="field">
+                        <label>Name</label>
+                        <input type="text" value="{{.Client.Name}}" disabled>
+                    </div>
+                    <div class="field">
+                        <label>ClientID</label>
+                        <input type="text" value="{{.Client.ClientID}}" disabled>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="add-inner-form">
+            <form method="POST" class="ui form" action="/ulboraUrisAdd">
+                <h4 class="ui dividing header">Ulbora System URIs</h4>
+                <div id="progBar" class="ui green progress" style="display:none;">
+                    <div class="bar"></div>
+                </div>
+                <div class="inline fields">
+                    <label for="oauth2">OAuth:</label>
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input type="radio" name="oauth2" value="none" checked tabindex="0" class="hidden">
+                            <label>No OAuth2</label>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input type="radio" name="oauth2" value="superUser" tabindex="0" class="hidden">
+                            <label>OAuth2 Super User</label>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input type="radio" name="oauth2" value="admin" tabindex="0" class="hidden">
+                            <label>OAuth2</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="inline fields">
+                    <label for="apiGateway">ApiGateway:</label>
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input type="radio" name="apiGateway" value="none" checked tabindex="0" class="hidden">
+                            <label>No Api Gateway</label>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input type="radio" name="apiGateway" value="superUser" tabindex="0" class="hidden">
+                            <label>Api Gateway Super User</label>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input type="radio" name="apiGateway" value="admin" tabindex="0" class="hidden">
+                            <label>Api Gateway</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <div class="ui checkbox">
+                        <input name="content" type="checkbox" tabindex="0" class="hidden">
+                        <label>Content Services</label>
+                    </div>
+                </div>
+
+
+                <div class="inline fields">
+                    <label for="customer">Customer Service:</label>
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input type="radio" name="customer" value="none" checked tabindex="0" class="hidden">
+                            <label>No Customer Services</label>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input type="radio" name="customer" value="admin" tabindex="0" class="hidden">
+                            <label>Customer Services Admin User</label>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input type="radio" name="customer" value="user" tabindex="0" class="hidden">
+                            <label>Customer Services</label>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="inline fields">
+                    <label for="image">Image Service:</label>
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input type="radio" name="image" value="none" checked tabindex="0" class="hidden">
+                            <label>No Image Services</label>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input type="radio" name="image" value="admin" tabindex="0" class="hidden">
+                            <label>Image Services Admin User</label>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input type="radio" name="image" value="user" tabindex="0" class="hidden">
+                            <label>Image Services</label>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="field">
+                    <div class="ui checkbox">
+                        <input name="mail" type="checkbox" tabindex="0" class="hidden">
+                        <label>Mail Services</label>
+                    </div>
+                </div>
+
+
+                <div class="inline fields">
+                    <label for="order">Order Service:</label>
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input type="radio" name="order" value="none" checked tabindex="0" class="hidden">
+                            <label>No Order Services</label>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input type="radio" name="order" value="admin" tabindex="0" class="hidden">
+                            <label>Order Services Admin User</label>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input type="radio" name="order" value="user" tabindex="0" class="hidden">
+                            <label>Order Services</label>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="inline fields">
+                    <label for="order">Product Service:</label>
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input type="radio" name="product" value="none" checked tabindex="0" class="hidden">
+                            <label>No Product Services</label>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input type="radio" name="product" value="admin" tabindex="0" class="hidden">
+                            <label>Product Services Admin User</label>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui radio checkbox">
+                            <input type="radio" name="product" value="user" tabindex="0" class="hidden">
+                            <label>Product Services</label>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="field">
+                    <div class="ui checkbox">
+                        <input name="template" type="checkbox" tabindex="0" class="hidden">
+                        <label>Template Services</label>
+                    </div>
+                </div>
+                <br/>
+                <br/>
+
+                <input type="hidden" name="clientId" value="{{.Client.ClientID}}">
+                <button id="ulborUriAddBnt" onclick="ulborUriAddBntDisable();" class="ui button" type="submit">Add</button>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

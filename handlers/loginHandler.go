@@ -34,8 +34,8 @@ func (h *OauthHandler) HandleLogin(w http.ResponseWriter, r *http.Request) {
 	h.authorize(w, r)
 }
 
-// login handler
-func (h *OauthHandler) handleLogout(w http.ResponseWriter, r *http.Request) {
+// HandleLogout handler
+func (h *OauthHandler) HandleLogout(w http.ResponseWriter, r *http.Request) {
 	h.token = nil
 	cookie := &http.Cookie{
 		Name:   "ugw-user-session",
@@ -74,7 +74,8 @@ func (h *OauthHandler) authorize(w http.ResponseWriter, r *http.Request) bool {
 	return resp
 }
 
-func (h *OauthHandler) handleToken(w http.ResponseWriter, r *http.Request) {
+//HandleToken HandleToken
+func (h *OauthHandler) HandleToken(w http.ResponseWriter, r *http.Request) {
 	code := r.URL.Query().Get("code")
 	state := r.URL.Query().Get("state")
 

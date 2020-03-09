@@ -69,7 +69,7 @@ func TestOauthHandler_handleLogout(t *testing.T) {
 
 	w := httptest.NewRecorder()
 	s.Save(r, w)
-	h.handleLogout(w, r)
+	h.HandleLogout(w, r)
 }
 
 func TestOauthHandler_handleToken(t *testing.T) {
@@ -94,6 +94,6 @@ func TestOauthHandler_handleToken(t *testing.T) {
 	h.OauthHost = "http://test12.com"
 	r, _ := http.NewRequest("POST", "https://test.com?code=555&state=123", nil)
 	w := httptest.NewRecorder()
-	h.handleToken(w, r)
+	h.HandleToken(w, r)
 
 }

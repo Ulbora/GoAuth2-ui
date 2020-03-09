@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+{{template "header" .}}
+
+<body>
+    {{template "navbar"}}
+    <div class="side-menu">
+        <div class="ui vertical menu">
+            <a class="active teal item">
+                Client Info
+            </a>
+            <a class="item" href="/oauth2/{{.Client.ClientID}}">
+                Security
+            </a>
+            <a class="item" href="/gateway/{{.Client.ClientID}}">
+                ApiGateway
+            </a>
+        </div>
+    </div>
+    <div class="client-edit-form">
+        <form method="POST" class="ui form" action="/updateClient">
+            <h4 class="ui dividing header">Edit Client</h4>
+            <div class="field">
+                <label>Client ID</label>
+                <input type="text" name="clientIDDis" value="{{.Client.ClientID}}" disabled>
+                <input type="hidden" name="clientId" value="{{.Client.ClientID}}">
+            </div>
+            <div class="field">
+                <label>Client Name</label>
+                <input type="text" name="clientName" placeholder="Client Name" value="{{.Client.Name}}" required>
+            </div>
+            
+            <div class="field">
+                <label>Client Secret</label>
+                <input type="text" name="SecretDis" value="{{.Client.Secret}}" disabled>
+                <input type="hidden" name="secret" value="{{.Client.Secret}}">
+                
+            </div>
+            <div class="field">
+                <label>Client Web Site</label>
+                <input type="text" name="webSite" placeholder="http://www.somesite.com" value="{{.Client.WebSite}}" required>
+            </div>
+            <div class="field">
+                <label>Email Address</label>
+                <input type="email" name="emailAddress" placeholder="someone@gmail.com" value="{{.Client.Email}}" required>
+            </div>
+            <div class="field">
+                <label>Redirect URLs (comma seperated)</label>
+                {{range .Client.RedirectURIs}}
+                <input type="text" name="redirectURLs"  value="{{.URI}}" disabled> 
+                {{end}}
+            </div>
+            {{if ne .ClientIsSelf true}}
+            <div class="grouped fields">
+                <label for="enabled">Client Enabled:</label>
+                <div class="field">
+                    <div class="ui radio checkbox">
+                        {{if .Client.Enabled}}
+                        <input type="radio" name="enabled" checked="" tabindex="0" class="hidden" value="yes">
+                        <label>Yes</label>
+                        {{else}}
+                        <input type="radio" name="enabled" tabindex="0" class="hidden" value="yes">
+                        <label>Yes</label>
+                        {{end}}
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="ui radio checkbox">
+                        {{if .Client.Enabled}}
+                        <input type="radio" name="enabled" tabindex="0" class="hidden" value="no">
+                        <label>No</label>
+                        {{else}}
+                        <input type="radio" name="enabled" checked="" tabindex="0" class="hidden" value="no">
+                        <label>No</label>
+                        {{end}}
+                    </div>
+                </div>
+            </div>
+            {{end}}
+            <button class="ui button" type="submit">Submit</button>
+        </form>
+    </div>
+    
+</body>
+
+</html>

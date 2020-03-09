@@ -51,22 +51,27 @@ type Handler interface {
 
 	HandleOauth2(w http.ResponseWriter, r *http.Request)
 
-	// HandleRedirectURLs(w http.ResponseWriter, r *http.Request)
-	// HandleRedirectURLAdd(w http.ResponseWriter, r *http.Request)
-	// HandleRedirectURLDelete(w http.ResponseWriter, r *http.Request)
+	HandleRedirectURLs(w http.ResponseWriter, r *http.Request)
+	HandleRedirectURLAdd(w http.ResponseWriter, r *http.Request)
+	HandleRedirectURLDelete(w http.ResponseWriter, r *http.Request)
 
 	HandleRoles(w http.ResponseWriter, r *http.Request)
 	HandleRoleAdd(w http.ResponseWriter, r *http.Request)
 	HandleRoleDelete(w http.ResponseWriter, r *http.Request)
 
-	// HandleUsers(w http.ResponseWriter, r *http.Request)
-	// HandleNewUser(w http.ResponseWriter, r *http.Request)
-	// HandleEditUser(w http.ResponseWriter, r *http.Request)
-	// HandleUpdateUserInfo(w http.ResponseWriter, r *http.Request)
-	// HandleUpdateUserEnable(w http.ResponseWriter, r *http.Request)
-	// HandleUpdateUserPw(w http.ResponseWriter, r *http.Request)
+	HandleUsers(w http.ResponseWriter, r *http.Request)
+	HandleNewUser(w http.ResponseWriter, r *http.Request)
+	HandleEditUser(w http.ResponseWriter, r *http.Request)
+	HandleUpdateUserInfo(w http.ResponseWriter, r *http.Request)
+	HandleUpdateUserEnable(w http.ResponseWriter, r *http.Request)
+	HandleUpdateUserPw(w http.ResponseWriter, r *http.Request)
 
 	HandleIndex(w http.ResponseWriter, r *http.Request)
+
+	HandleLogin(w http.ResponseWriter, r *http.Request)
+	HandleLogout(w http.ResponseWriter, r *http.Request)
+
+	HandleToken(w http.ResponseWriter, r *http.Request)
 }
 
 const (
@@ -89,9 +94,9 @@ type OauthHandler struct {
 	Templates *template.Template
 	Store     *sessions.CookieStore
 	//TokenMap      map[string]*oauth2.Token
-	ClientCreds   *ClientCreds
-	OauthHost     string
-	UserHost      string
+	ClientCreds *ClientCreds
+	OauthHost   string
+	//UserHost      string
 	SchemeDefault string // = "http://"
 	Auth          oauth2.AuthToken
 	token         *oauth2.Token

@@ -1,0 +1,89 @@
+@import "header.less";
+@subtleGradient: linear-gradient(transparent, rgba(0, 0, 0, 0.05));
+.client-main{
+    width: 100%;
+    padding: 1% 1% 1% 1%;
+}
+
+.side-menu{ 
+    margin: 2% 0 0 0;
+    padding: 0 0 0 2%;
+    float: left;
+}
+
+.add-button{ 
+    float: left;   
+    text-align: center;
+    @media (min-width: 1024px) { 
+        width: 10%;      
+    }
+    @media (max-width: 1024px) {
+        width: 10%;
+    }
+    @media (max-height: 700px) {
+        width: 10%;
+    }
+    @media (max-width: 768px) {
+        width: 20%;
+    }
+    @media (max-width: 480px) {
+        width: 25%;
+    }
+}
+.page-content{  
+    float: left; 
+    width: 60%;
+    padding: 0 0 0 2%;
+}
+.login{
+    width: 100%;
+    margin: 10% 0 0 0;
+    text-align: center;
+}
+.client-table{
+    margin: 2% 0 0 1%;    
+    float: left;
+    width: 98%;   
+}
+.client-allowed-uri-table{
+    margin: 2% 0 5% 1%;    
+    float: left;
+    width: 98%;   
+}
+.client-form{
+    margin: 2% 0 0 25%;
+    width: 50%;
+    
+}
+.client-edit-form{
+    float: left;
+    margin: 2% 0 0 0;
+    width: 50%;
+    padding: 0 0 0 2%;
+}
+
+.add-inner-form{
+    float: left;
+    margin: 3% 0 0 0; 
+    padding: 1%;
+    width: 100%;
+    background: @subtleGradient;
+}
+
+.gen-secret{
+    width: 100%;
+    float: left;
+    margin: 3px 0 3px 0;
+    
+}
+
+.gen-secret-icon{
+    width: 60%;
+    float: right;
+    margin: 0 0 0 0;
+    
+}
+
+.selattr{
+    background: lightgreen;
+}
