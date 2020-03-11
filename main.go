@@ -16,44 +16,71 @@ import (
 	"github.com/gorilla/mux"
 )
 
+const (
+	authClientID     = "10"
+	authClientSecret = "jhcy2YGrvgDsm4VRVtUESiI96K65gQeXcA2TQCJYZW0J1cYLio"
+	goauth2HostURL   = "http://localhost:3000"
+	userHostURL      = "http://localhost:3001"
+	defaultScheme    = "http://"
+	authState        = "58dkhhhd"
+)
+
 //GO111MODULE=on go mod init github.com/Ulbora/GoAuth2-ui
 func main() {
 	var authCodeClientID string
-	if os.Getenv("AUTH_CODE_CLIENT_ID") != "" {
-		authCodeClientID = os.Getenv("AUTH_CODE_CLIENT_ID")
+	if os.Getenv("AUTH_CLIENT_ID") != "" {
+		authCodeClientID = os.Getenv("AUTH_CLIENT_ID")
 	} else {
-		authCodeClientID = "10"
+		authCodeClientID = authClientID
+	}
+
+	var authCodeClientSecret string
+	if os.Getenv("AUTH_CLIENT_SECRET") != "" {
+		authCodeClientSecret = os.Getenv("AUTH_CLIENT_SECRET")
+	} else {
+		authCodeClientSecret = authClientSecret
 	}
 
 	var goauth2Host string
 	if os.Getenv("GOAUTH2_HOST") != "" {
 		goauth2Host = os.Getenv("GOAUTH2_HOST")
 	} else {
-		goauth2Host = "http://localhost:3000"
+		goauth2Host = goauth2HostURL
+	}
+
+	var userHost string
+	if os.Getenv("USER_HOST") != "" {
+		userHost = os.Getenv("USER_HOST")
+	} else {
+		userHost = userHostURL
 	}
 
 	var schemeDefault string
 	if os.Getenv("SCHEME_DEFAULT") != "" {
 		schemeDefault = os.Getenv("SCHEME_DEFAULT")
 	} else {
-		schemeDefault = "http://"
+		schemeDefault = defaultScheme
 	}
 
 	var oh hand.OauthHandler
 	var logger lg.Logger
-	logger.LogLevel = lg.InfoLevel
+	logger.LogLevel = lg.AllLevel
 	oh.Log = &logger
 	var cc hand.ClientCreds
-	cc.AuthCodeState = "58dkhhhd"
+	//cc.AuthCodeState = "58dkhhhd"
 	oh.ClientCreds = &cc
 	oh.ClientCreds.AuthCodeClient = authCodeClientID
+	oh.ClientCreds.AuthCodeSecret = authCodeClientSecret
+	oh.ClientCreds.AuthCodeState = authState
 	oh.OauthHost = goauth2Host
+	oh.UserHost = userHost
 
 	var ser services.Oauth2Service
 	ser.Log = &logger
 	var p px.GoProxy
 	ser.Proxy = p.GetNewProxy()
 	ser.Host = goauth2Host
+	ser.UserHost = userHost
 	ser.ClientID = authCodeClientID
 	oh.Service = ser.GetNew()
 	oh.SchemeDefault = schemeDefault
@@ -81,7 +108,8 @@ func main() {
 	//securety routes
 	router.HandleFunc("/", h.HandleIndex).Methods("GET")
 	router.HandleFunc("/clients", h.HandleClients).Methods("GET")
-	router.HandleFunc("/addClient", h.HandleAddClient).Methods("GET")
+	router.HandleFunc("/clients", h.HandleClients).Methods("POST")
+	router.HandleFunc("/addClient", h.HandleAddClient).Methods("POST")
 	router.HandleFunc("/editClient/{clientId}", h.HandleEditClient).Methods("GET")
 	router.HandleFunc("/newClient", h.HandleNewClient).Methods("POST")
 	router.HandleFunc("/updateClient", h.HandleUpdateClient).Methods("POST")

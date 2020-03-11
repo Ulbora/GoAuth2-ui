@@ -44,7 +44,20 @@ func TestOauthHandler_HandleRoles(t *testing.T) {
 	cr.Role = "tester"
 	var crs []services.ClientRole
 	crs = append(crs, cr)
+	var cr2 services.ClientRole
+	cr2.ClientID = 55
+	cr2.ID = 12
+	cr2.Role = "tester"
+	crs = append(crs, cr2)
 	ser.MockClientRoleList = &crs
+	ser.MockRoleURIListCode = 200
+
+	var cru services.RoleURI
+	cru.ClientAllowedURIID = 3
+	cru.ClientRoleID = 1
+	var crus []services.RoleURI
+	crus = append(crus, cru)
+	ser.MockRoleURIList = &crus
 	ser.MockRoleURIListCode = 200
 
 	h.Service = &ser
@@ -62,6 +75,7 @@ func TestOauthHandler_HandleRoles(t *testing.T) {
 	w := httptest.NewRecorder()
 	h.HandleRoles(w, r)
 	fmt.Println("code: ", w.Code)
+	fmt.Println("HandleRoles body: ", w)
 	if w.Code != 200 {
 		t.Fail()
 	}

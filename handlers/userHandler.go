@@ -66,6 +66,7 @@ func (h *OauthHandler) HandleUsers(w http.ResponseWriter, r *http.Request) {
 				h.Log.Debug("users client res: ", *res)
 
 				res2, _ := h.Service.SearchUserList(clientID)
+				h.Log.Debug("users client res2: ", *res2)
 
 				res3, _ := h.Service.GetRoleList()
 				h.Log.Debug("users client re3s: ", *res3)

@@ -49,7 +49,7 @@ func TestUserService_AddUser(t *testing.T) {
 	c.Proxy = p.GetNewProxy()
 	fmt.Println("c.Proxy in test: ", c.Proxy)
 	c.ClientID = "10"
-	c.Host = "http://localhost:3001"
+	c.UserHost = "http://localhost:3001"
 	c.Token = tempToken
 	var user User
 	user.ClientID = CLIDINT
@@ -82,7 +82,7 @@ func TestUserService_UpdateUserPassword(t *testing.T) {
 	c.Proxy = p.GetNewProxy()
 	fmt.Println("c.Proxy in test: ", c.Proxy)
 	c.ClientID = "10"
-	c.Host = "http://localhost:3001"
+	c.UserHost = "http://localhost:3001"
 	c.Token = tempToken
 	var user UserPW
 	user.Username = UID
@@ -110,7 +110,7 @@ func TestUserService_UpdateUserDisable(t *testing.T) {
 	c.Proxy = p.GetNewProxy()
 	fmt.Println("c.Proxy in test: ", c.Proxy)
 	c.ClientID = "10"
-	c.Host = "http://localhost:3001"
+	c.UserHost = "http://localhost:3001"
 	c.Token = tempToken
 	var user UserDis
 	user.Username = UID
@@ -138,7 +138,7 @@ func TestUserService_UpdateUserInfo(t *testing.T) {
 	c.Proxy = p.GetNewProxy()
 	fmt.Println("c.Proxy in test: ", c.Proxy)
 	c.ClientID = "10"
-	c.Host = "http://localhost:3001"
+	c.UserHost = "http://localhost:3001"
 	c.Token = tempToken
 	var user UserInfo
 	user.Username = UID
@@ -169,7 +169,7 @@ func TestUserService_UpdateUserDisable2(t *testing.T) {
 	c.Proxy = p.GetNewProxy()
 	fmt.Println("c.Proxy in test: ", c.Proxy)
 	c.ClientID = "10"
-	c.Host = "http://localhost:3001"
+	c.UserHost = "http://localhost:3001"
 	c.Token = tempToken
 	var user UserDis
 	user.Username = UID
@@ -197,7 +197,7 @@ func TestUserService_GetUser(t *testing.T) {
 	c.Proxy = p.GetNewProxy()
 	fmt.Println("c.Proxy in test: ", c.Proxy)
 	c.ClientID = "10"
-	c.Host = "http://localhost:3001"
+	c.UserHost = "http://localhost:3001"
 	c.Token = tempToken
 
 	res, code := c.GetUser(UID, CLID)
@@ -221,7 +221,7 @@ func TestUserService_GetUserList(t *testing.T) {
 	p.MockRespCode = 200
 	fmt.Println("c.Proxy in test: ", c.Proxy)
 	c.ClientID = "10"
-	c.Host = "http://localhost:3001"
+	c.UserHost = "http://localhost:3001"
 	c.Token = tempToken
 
 	res, code := c.GetUserList()
@@ -245,7 +245,7 @@ func TestUserService_SearchUserList(t *testing.T) {
 	c.Proxy = p.GetNewProxy()
 	fmt.Println("c.Proxy in test: ", c.Proxy)
 	c.ClientID = "10"
-	c.Host = "http://localhost:3001"
+	c.UserHost = "http://localhost:3001"
 	c.Token = tempToken
 
 	res, code := c.SearchUserList(CLID)
@@ -269,7 +269,7 @@ func TestUserService_DeleteUser(t *testing.T) {
 	c.Proxy = p.GetNewProxy()
 	fmt.Println("c.Proxy in test: ", c.Proxy)
 	c.ClientID = "10"
-	c.Host = "http://localhost:3001"
+	c.UserHost = "http://localhost:3001"
 	c.Token = tempToken
 
 	res := c.DeleteUser(UID, CLID)
@@ -293,7 +293,7 @@ func TestUserService_GetRoleList(t *testing.T) {
 	c.Proxy = p.GetNewProxy()
 	fmt.Println("c.Proxy in test: ", c.Proxy)
 	c.ClientID = "10"
-	c.Host = "http://localhost:3001"
+	c.UserHost = "http://localhost:3001"
 	c.Token = tempToken
 
 	res, code := c.GetRoleList()

@@ -58,10 +58,25 @@ func (h *OauthHandler) HandleRoles(w http.ResponseWriter, r *http.Request) {
 
 				res2, _ := h.Service.GetClientRoleList(clientID)
 				h.Log.Debug("roles client res2: ", *res2)
+				for rrri, rrr := range *res2 {
+					ruu, _ := h.Service.GetRoleURIList(strconv.FormatInt(rrr.ID, 10))
+					h.Log.Debug("role urls: ", *ruu)
+					for _, rru := range *ruu {
+						if rru.ClientRoleID == rrr.ID {
+							(*res2)[rrri].Used = true
+							h.Log.Debug("role used: ", (*res2)[rrri])
+						}
+					}
+				}
+				// for _, rrr := range *res2 {
+				// 	h.Log.Debug("test role: ", rrr)
+				// }
+
 				page.ClientRoles = res2
 				if h.ClientCreds.AuthCodeClient == clientID {
 					page.ClientIsSelf = true
 				}
+
 				var sm secSideMenu
 				sm.RolesActive = "active teal"
 				page.SecSideMenu = &sm

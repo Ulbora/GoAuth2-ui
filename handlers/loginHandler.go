@@ -2,7 +2,6 @@
 package handlers
 
 import (
-	"fmt"
 	"net/http"
 
 	oauth2 "github.com/Ulbora/go-oauth2-client"
@@ -38,7 +37,7 @@ func (h *OauthHandler) HandleLogin(w http.ResponseWriter, r *http.Request) {
 func (h *OauthHandler) HandleLogout(w http.ResponseWriter, r *http.Request) {
 	h.token = nil
 	cookie := &http.Cookie{
-		Name:   "ugw-user-session",
+		Name:   "goauth2-ui",
 		Value:  "",
 		Path:   "/",
 		MaxAge: -1,
@@ -46,7 +45,7 @@ func (h *OauthHandler) HandleLogout(w http.ResponseWriter, r *http.Request) {
 	http.SetCookie(w, cookie)
 
 	cookie2 := &http.Cookie{
-		Name:   "ulbora_oauth2_server",
+		Name:   "goauth2",
 		Value:  "",
 		Path:   "/",
 		MaxAge: -1,
@@ -56,7 +55,7 @@ func (h *OauthHandler) HandleLogout(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *OauthHandler) authorize(w http.ResponseWriter, r *http.Request) bool {
-	fmt.Println("in authorize")
+	h.Log.Debug("in authorize")
 
 	var a oauth2.AuthCodeAuthorize
 	a.ClientID = h.ClientCreds.AuthCodeClient // h.getAuthCodeClient()
@@ -91,6 +90,7 @@ func (h *OauthHandler) HandleToken(w http.ResponseWriter, r *http.Request) {
 		h.Log.Debug("getting token")
 
 		resp := h.Auth.AuthCodeToken()
+		h.Log.Debug("token resp: ", *resp)
 
 		h.Log.Debug("token len: ", len(resp.AccessToken))
 
@@ -105,7 +105,7 @@ func (h *OauthHandler) HandleToken(w http.ResponseWriter, r *http.Request) {
 				h.token = resp
 
 				err := s.Save(r, w)
-				fmt.Println(err)
+				h.Log.Debug(err)
 				http.Redirect(w, r, "/clients", http.StatusFound)
 			}
 		}

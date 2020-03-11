@@ -36,15 +36,19 @@ and open the template in the editor.
                 </thead>
                 <tbody>
                     {{range .ClientRoles}}
-                    <tr>                        
-                        <td>{{.Role}}</td>  
+                    <tr>
+                        <td>{{.Role}}</td>
                         {{if ne $.ClientIsSelf true}}
-                        <td onclick="showRoleModel({{.ID}},{{.Role}});">
-                            <i class="remove circle icon"></i>
-                        </td>
+                            {{if ne .Used true}}
+                            <td onclick="showRoleModel({{.ID}},{{.Role}});">
+                                <i class="remove circle icon"></i>
+                            </td>
+                            {{else}}
+                            <td>In Use</td>
+                            {{end}}
                         {{else}}
                         <td>
-                           This is You
+                            This is You
                         </td>
                         {{end}}
                     </tr>
@@ -82,7 +86,8 @@ and open the template in the editor.
         </div>
         <div class="actions">
             <div class="ui black cancel button">Cancel</div>
-            <div onclick="location.href='/deleteClientRoles/' + getRoleId() +'/'+ {{.Client.ClientID}};" class="ui negative button">Delete</div>
+            <div onclick="location.href='/deleteClientRoles/' + getRoleId() +'/'+ {{.Client.ClientID}};"
+                class="ui negative button">Delete</div>
         </div>
     </div>
 </body>

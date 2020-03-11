@@ -32,6 +32,7 @@ type ClientRole struct {
 	ID       int64  `json:"id"`
 	ClientID int64  `json:"clientId"`
 	Role     string `json:"role"`
+	Used     bool
 }
 
 //ClientRoleResponse resp

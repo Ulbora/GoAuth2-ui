@@ -74,9 +74,10 @@ type Oauth2Service struct {
 	//APIKey   string
 	//UserID string
 	//Hashed string
-	Host  string
-	Proxy px.Proxy
-	Log   *lg.Logger
+	Host     string
+	UserHost string
+	Proxy    px.Proxy
+	Log      *lg.Logger
 }
 
 //GetNew GetNew

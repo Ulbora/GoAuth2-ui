@@ -94,9 +94,9 @@ type OauthHandler struct {
 	Templates *template.Template
 	Store     *sessions.CookieStore
 	//TokenMap      map[string]*oauth2.Token
-	ClientCreds *ClientCreds
-	OauthHost   string
-	//UserHost      string
+	ClientCreds   *ClientCreds
+	OauthHost     string
+	UserHost      string
 	SchemeDefault string // = "http://"
 	Auth          oauth2.AuthToken
 	token         *oauth2.Token
@@ -126,9 +126,10 @@ func (h *OauthHandler) getSession(r *http.Request) (*sessions.Session, bool) {
 	var suc bool
 	var srtn *sessions.Session
 	if h.Store == nil {
-		h.Session.Name = "goauth2"
+		h.Session.Name = "goauth2-ui"
 		h.Session.MaxAge = 3600
 		h.Store = h.Session.InitSessionStore()
+		h.Log.Debug("h.Store : ", h.Store)
 		//errors without this
 		//-------gob.Register(&AuthorizeRequestInfo{})
 	}
@@ -145,13 +146,13 @@ func (h *OauthHandler) getSession(r *http.Request) (*sessions.Session, bool) {
 		//s, err := store.Get(r, "temp-name")
 		//s, err := store.Get(r, "goauth2")
 
-		loggedInAuth := s.Values["loggedIn"]
-		userAuth := s.Values["user"]
-		h.Log.Debug("loggedIn: ", loggedInAuth)
-		h.Log.Debug("user: ", userAuth)
+		loggedInAuth := s.Values["userLoggenIn"]
+		//userAuth := s.Values["user"]
+		h.Log.Debug("userLoggenIn: ", loggedInAuth)
+		//h.Log.Debug("user: ", userAuth)
 
-		larii := s.Values["authReqInfo"]
-		h.Log.Debug("arii-----login", larii)
+		//larii := s.Values["authReqInfo"]
+		//h.Log.Debug("arii-----login", larii)
 
 		h.Log.Debug("session error in getSession: ", err)
 		if err == nil {

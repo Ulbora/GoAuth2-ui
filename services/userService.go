@@ -4,7 +4,6 @@ package services
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"net/http"
 )
 
@@ -100,7 +99,7 @@ type UserResponse struct {
 //AddUser add
 func (u *Oauth2Service) AddUser(user *User) *UserResponse {
 	var rtn = new(UserResponse)
-	var addURL = u.Host + "/rs/user/add"
+	var addURL = u.UserHost + "/rs/user/add"
 	aJSON, err := json.Marshal(user)
 	u.Log.Debug("Add user: ", err)
 	if err == nil {
@@ -121,7 +120,7 @@ func (u *Oauth2Service) AddUser(user *User) *UserResponse {
 //UpdateUser update
 func (u *Oauth2Service) UpdateUser(user UpdateUser) *UserResponse {
 	var rtn = new(UserResponse)
-	var upURL = u.Host + "/rs/user/update"
+	var upURL = u.UserHost + "/rs/user/update"
 	aJSON, err := json.Marshal(user)
 	u.Log.Debug("update user: ", err)
 	if err == nil {
@@ -143,7 +142,7 @@ func (u *Oauth2Service) UpdateUser(user UpdateUser) *UserResponse {
 func (u *Oauth2Service) GetUser(username string, clientID string) (*User, int) {
 	var rtn = new(User)
 	var code int
-	var gURL = u.Host + "/rs/user/get/" + username + "/" + clientID
+	var gURL = u.UserHost + "/rs/user/get/" + username + "/" + clientID
 	req, rErr := http.NewRequest("GET", gURL, nil)
 	u.Log.Debug("get user req: ", rErr)
 	if rErr == nil {
@@ -159,7 +158,7 @@ func (u *Oauth2Service) GetUser(username string, clientID string) (*User, int) {
 func (u *Oauth2Service) GetUserList() (*[]User, int) {
 	var rtn = make([]User, 0)
 	var code int
-	var gURL = u.Host + "/rs/user/list"
+	var gURL = u.UserHost + "/rs/user/list"
 	req, rErr := http.NewRequest("GET", gURL, nil)
 	u.Log.Debug("get user list req: ", rErr)
 	if rErr == nil {
@@ -175,15 +174,17 @@ func (u *Oauth2Service) GetUserList() (*[]User, int) {
 func (u *Oauth2Service) SearchUserList(clientID string) (*[]User, int) {
 	var rtn = make([]User, 0)
 	var code int
-	var gURL = u.Host + "/rs/user/search/" + clientID
-	fmt.Println(gURL)
+	var gURL = u.UserHost + "/rs/user/search/" + clientID
+	//fmt.Println(gURL)
+	u.Log.Debug("gURL: ", gURL)
 	req, rErr := http.NewRequest("GET", gURL, nil)
-	u.Log.Debug("search user list req: ", rErr)
+	u.Log.Debug("search user list rErr: ", rErr)
 	if rErr == nil {
 		req.Header.Set("clientId", u.ClientID)
 		req.Header.Set("Authorization", "Bearer "+u.Token)
 		//req.Header.Set("apiKey", u.APIKey)
 		_, code = u.Proxy.Do(req, &rtn)
+		u.Log.Debug("search user list code: ", code)
 	}
 	return &rtn, code
 }
@@ -191,7 +192,7 @@ func (u *Oauth2Service) SearchUserList(clientID string) (*[]User, int) {
 // DeleteUser delete
 func (u *Oauth2Service) DeleteUser(username string, clientID string) *UserResponse {
 	var rtn = new(UserResponse)
-	var gURL = u.Host + "/rs/user/delete/" + username + "/" + clientID
+	var gURL = u.UserHost + "/rs/user/delete/" + username + "/" + clientID
 	req, rErr := http.NewRequest("DELETE", gURL, nil)
 	u.Log.Debug("delete user list req: ", rErr)
 	if rErr == nil {
@@ -209,7 +210,7 @@ func (u *Oauth2Service) DeleteUser(username string, clientID string) *UserRespon
 func (u *Oauth2Service) GetRoleList() (*[]Role, int) {
 	var rtn = make([]Role, 0)
 	var code int
-	var gURL = u.Host + "/rs/role/list"
+	var gURL = u.UserHost + "/rs/role/list"
 	req, rErr := http.NewRequest("GET", gURL, nil)
 	u.Log.Debug("get role list req: ", rErr)
 	if rErr == nil {
