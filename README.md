@@ -1,5 +1,5 @@
 # GoAuth2-ui
-A user interface for GoAuth2, a complete standalone Oauth2 Server RFC 6749 implementation written in Golang and licensed under the GPL V3 license.
+A user interface for GoAuth2 written in Golang. GoAuth2 a complete standalone Oauth2 Server RFC 6749 implementation written in Golang and licensed under the GPL V3 license.
 
 
 [![Build Status](https://travis-ci.org/Ulbora/GoAuth2-ui.svg?branch=master)](https://travis-ci.org/Ulbora/GoAuth2-ui)
