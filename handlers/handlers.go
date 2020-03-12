@@ -72,6 +72,8 @@ type Handler interface {
 	HandleLogout(w http.ResponseWriter, r *http.Request)
 
 	HandleToken(w http.ResponseWriter, r *http.Request)
+
+	SetLogLevel(w http.ResponseWriter, r *http.Request)
 }
 
 const (
