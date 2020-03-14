@@ -67,7 +67,6 @@ func main() {
 	logger.LogLevel = lg.AllLevel
 	oh.Log = &logger
 	var cc hand.ClientCreds
-	//cc.AuthCodeState = "58dkhhhd"
 	oh.ClientCreds = &cc
 	oh.ClientCreds.AuthCodeClient = authCodeClientID
 	oh.ClientCreds.AuthCodeSecret = authCodeClientSecret
