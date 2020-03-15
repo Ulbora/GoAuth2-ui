@@ -64,7 +64,7 @@ func main() {
 
 	var oh hand.OauthHandler
 	var logger lg.Logger
-	logger.LogLevel = lg.AllLevel
+	logger.LogLevel = lg.OffLevel
 	oh.Log = &logger
 	var cc hand.ClientCreds
 	oh.ClientCreds = &cc
@@ -142,6 +142,8 @@ func main() {
 	router.HandleFunc("/tokenHandler", h.HandleToken)
 	router.HandleFunc("/login", h.HandleLogin)
 	router.HandleFunc("/logout", h.HandleLogout)
+
+	router.HandleFunc("/rs/loglevel", h.SetLogLevel).Methods("POST")
 
 	// admin resources
 	router.PathPrefix("/").Handler(http.FileServer(http.Dir("./static/")))
