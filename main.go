@@ -19,13 +19,13 @@ import (
 const (
 	authClientID     = "10"
 	authClientSecret = "jhcy2YGrvgDsm4VRVtUESiI96K65gQeXcA2TQCJYZW0J1cYLio"
-	goauth2HostURL   = "http://localhost:3000"
-	userHostURL      = "http://localhost:3001"
+	goauth2HostURL   = "http://www.goauth2.com"      //"http://localhost:3000"
+	userHostURL      = "http://192.241.140.243:3001" //"http://localhost:3001"
 	defaultScheme    = "http://"
 	authState        = "58dkhhhd"
 )
 
-//GO111MODULE=on go mod init github.com/Ulbora/GoAuth2-ui
+// GO111MODULE=on go mod init github.com/Ulbora/GoAuth2-ui
 func main() {
 	var authCodeClientID string
 	if os.Getenv("AUTH_CLIENT_ID") != "" {
