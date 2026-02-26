@@ -1,10 +1,11 @@
-//Package services ...
+// Package services ...
 package services
 
 import (
 	"bytes"
 	"fmt"
-	"io/ioutil"
+	"io"
+
 	"net/http"
 	"strconv"
 	"testing"
@@ -43,7 +44,7 @@ func TestAllowedURIService_AddClient(t *testing.T) {
 	var p px.MockGoProxy
 	p.MockDoSuccess1 = true
 	var ress http.Response
-	ress.Body = ioutil.NopCloser(bytes.NewBufferString(`{"success":true, "id": 2}`))
+	ress.Body = io.NopCloser(bytes.NewBufferString(`{"success":true, "id": 2}`))
 	p.MockResp = &ress
 	p.MockRespCode = 200
 	c.Proxy = p.GetNewProxy()
@@ -76,7 +77,7 @@ func TestAllowedURIService_AddAllowedURI(t *testing.T) {
 	var p px.MockGoProxy
 	p.MockDoSuccess1 = true
 	var ress http.Response
-	ress.Body = ioutil.NopCloser(bytes.NewBufferString(`{"success":true, "id": 2}`))
+	ress.Body = io.NopCloser(bytes.NewBufferString(`{"success":true, "id": 2}`))
 	p.MockResp = &ress
 	p.MockRespCode = 200
 	c.Proxy = p.GetNewProxy()
@@ -105,7 +106,7 @@ func TestAllowedURIService_UpdateAllowedURI(t *testing.T) {
 	var p px.MockGoProxy
 	p.MockDoSuccess1 = true
 	var ress http.Response
-	ress.Body = ioutil.NopCloser(bytes.NewBufferString(`{"success":true, "id": 2}`))
+	ress.Body = io.NopCloser(bytes.NewBufferString(`{"success":true, "id": 2}`))
 	p.MockResp = &ress
 	p.MockRespCode = 200
 	c.Proxy = p.GetNewProxy()
@@ -132,7 +133,7 @@ func TestAllowedURIService_GetAllowedURI(t *testing.T) {
 	var p px.MockGoProxy
 	p.MockDoSuccess1 = true
 	var ress http.Response
-	ress.Body = ioutil.NopCloser(bytes.NewBufferString(`{"id":4, "clientId": 2, "uri": "/rs/mail/get"}`))
+	ress.Body = io.NopCloser(bytes.NewBufferString(`{"id":4, "clientId": 2, "uri": "/rs/mail/get"}`))
 	p.MockResp = &ress
 	p.MockRespCode = 200
 	c.Proxy = p.GetNewProxy()
@@ -154,7 +155,7 @@ func TestAllowedURIService_GetAllowedURIList(t *testing.T) {
 	var p px.MockGoProxy
 	p.MockDoSuccess1 = true
 	var ress http.Response
-	ress.Body = ioutil.NopCloser(bytes.NewBufferString(`[{"id":5, "clientId": 2}]`))
+	ress.Body = io.NopCloser(bytes.NewBufferString(`[{"id":5, "clientId": 2}]`))
 	p.MockResp = &ress
 	p.MockRespCode = 200
 	c.Proxy = p.GetNewProxy()
@@ -178,7 +179,7 @@ func TestAllowedURIService_DeleteAllowedURI(t *testing.T) {
 	var p px.MockGoProxy
 	p.MockDoSuccess1 = true
 	var ress http.Response
-	ress.Body = ioutil.NopCloser(bytes.NewBufferString(`{"success":true, "id": 2}`))
+	ress.Body = io.NopCloser(bytes.NewBufferString(`{"success":true, "id": 2}`))
 	p.MockResp = &ress
 	p.MockRespCode = 200
 	c.Proxy = p.GetNewProxy()
@@ -201,7 +202,7 @@ func TestAllowedURIService_DeleteClient(t *testing.T) {
 	var p px.MockGoProxy
 	p.MockDoSuccess1 = true
 	var ress http.Response
-	ress.Body = ioutil.NopCloser(bytes.NewBufferString(`{"success":true, "id": 2}`))
+	ress.Body = io.NopCloser(bytes.NewBufferString(`{"success":true, "id": 2}`))
 	p.MockResp = &ress
 	p.MockRespCode = 200
 	c.Proxy = p.GetNewProxy()

@@ -1,10 +1,11 @@
-//Package services ...
+// Package services ...
 package services
 
 import (
 	"bytes"
 	"fmt"
-	"io/ioutil"
+	"io"
+
 	"net/http"
 	"strconv"
 	"testing"
@@ -43,7 +44,7 @@ func TestClientRoleService_AddClient(t *testing.T) {
 	var p px.MockGoProxy
 	p.MockDoSuccess1 = true
 	var ress http.Response
-	ress.Body = ioutil.NopCloser(bytes.NewBufferString(`{"success":true, "id": 2}`))
+	ress.Body = io.NopCloser(bytes.NewBufferString(`{"success":true, "id": 2}`))
 	p.MockResp = &ress
 	p.MockRespCode = 200
 	c.Proxy = p.GetNewProxy()
@@ -76,7 +77,7 @@ func TestClientRoleService_AddClientRole(t *testing.T) {
 	var p px.MockGoProxy
 	p.MockDoSuccess1 = true
 	var ress http.Response
-	ress.Body = ioutil.NopCloser(bytes.NewBufferString(`{"success":true, "id": 2}`))
+	ress.Body = io.NopCloser(bytes.NewBufferString(`{"success":true, "id": 2}`))
 	p.MockResp = &ress
 	p.MockRespCode = 200
 	c.Proxy = p.GetNewProxy()
@@ -105,7 +106,7 @@ func TestClientRoleService_GetClientRoleList(t *testing.T) {
 	var p px.MockGoProxy
 	p.MockDoSuccess1 = true
 	var ress http.Response
-	ress.Body = ioutil.NopCloser(bytes.NewBufferString(`[{"id":5, "clientId": 2, "role": "user"}]`))
+	ress.Body = io.NopCloser(bytes.NewBufferString(`[{"id":5, "clientId": 2, "role": "user"}]`))
 	p.MockResp = &ress
 	p.MockRespCode = 200
 	c.Proxy = p.GetNewProxy()
@@ -131,7 +132,7 @@ func TestClientRoleService_DeleteClientRole(t *testing.T) {
 	var p px.MockGoProxy
 	p.MockDoSuccess1 = true
 	var ress http.Response
-	ress.Body = ioutil.NopCloser(bytes.NewBufferString(`{"success":true, "id": 2}`))
+	ress.Body = io.NopCloser(bytes.NewBufferString(`{"success":true, "id": 2}`))
 	p.MockResp = &ress
 	p.MockRespCode = 200
 	c.Proxy = p.GetNewProxy()
@@ -154,7 +155,7 @@ func TestClientRoleService_DeleteClient(t *testing.T) {
 	var p px.MockGoProxy
 	p.MockDoSuccess1 = true
 	var ress http.Response
-	ress.Body = ioutil.NopCloser(bytes.NewBufferString(`{"success":true, "id": 2}`))
+	ress.Body = io.NopCloser(bytes.NewBufferString(`{"success":true, "id": 2}`))
 	p.MockResp = &ress
 	p.MockRespCode = 200
 	c.Proxy = p.GetNewProxy()

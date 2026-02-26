@@ -1,10 +1,11 @@
-//Package services ...
+// Package services ...
 package services
 
 import (
 	"bytes"
 	"fmt"
-	"io/ioutil"
+	"io"
+
 	"net/http"
 	"strconv"
 	"testing"
@@ -43,7 +44,7 @@ func TestRedirectURIService_AddClient(t *testing.T) {
 	var p px.MockGoProxy
 	p.MockDoSuccess1 = true
 	var ress http.Response
-	ress.Body = ioutil.NopCloser(bytes.NewBufferString(`{"success":true, "id": 2}`))
+	ress.Body = io.NopCloser(bytes.NewBufferString(`{"success":true, "id": 2}`))
 	p.MockResp = &ress
 	p.MockRespCode = 200
 	c.Proxy = p.GetNewProxy()
@@ -76,7 +77,7 @@ func TestRedirectURIService_AddRedirectURI(t *testing.T) {
 	var p px.MockGoProxy
 	p.MockDoSuccess1 = true
 	var ress http.Response
-	ress.Body = ioutil.NopCloser(bytes.NewBufferString(`{"success":true, "id": 2}`))
+	ress.Body = io.NopCloser(bytes.NewBufferString(`{"success":true, "id": 2}`))
 	p.MockResp = &ress
 	p.MockRespCode = 200
 	c.Proxy = p.GetNewProxy()
@@ -105,7 +106,7 @@ func TestRedirectURIService_GetRedirectURIList(t *testing.T) {
 	var p px.MockGoProxy
 	p.MockDoSuccess1 = true
 	var ress http.Response
-	ress.Body = ioutil.NopCloser(bytes.NewBufferString(`[{"id":3, "clientId": 2}]`))
+	ress.Body = io.NopCloser(bytes.NewBufferString(`[{"id":3, "clientId": 2}]`))
 	p.MockResp = &ress
 	p.MockRespCode = 200
 	c.Proxy = p.GetNewProxy()
@@ -129,7 +130,7 @@ func TestRedirectURIService_DeleteRedirectURI(t *testing.T) {
 	var p px.MockGoProxy
 	p.MockDoSuccess1 = true
 	var ress http.Response
-	ress.Body = ioutil.NopCloser(bytes.NewBufferString(`{"success":true, "id": 2}`))
+	ress.Body = io.NopCloser(bytes.NewBufferString(`{"success":true, "id": 2}`))
 	p.MockResp = &ress
 	p.MockRespCode = 200
 	c.Proxy = p.GetNewProxy()
@@ -151,7 +152,7 @@ func TestRedirectURIService_DeleteClient(t *testing.T) {
 	var p px.MockGoProxy
 	p.MockDoSuccess1 = true
 	var ress http.Response
-	ress.Body = ioutil.NopCloser(bytes.NewBufferString(`{"success":true, "id": 2}`))
+	ress.Body = io.NopCloser(bytes.NewBufferString(`{"success":true, "id": 2}`))
 	p.MockResp = &ress
 	p.MockRespCode = 200
 	c.Proxy = p.GetNewProxy()
